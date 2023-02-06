@@ -17,7 +17,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late final ScrollController? controller;
-  int value = 1;
+  int tasksOrBoards = 1;
+  int days = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -135,6 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SliverAppBar(
               pinned: true,
               elevation: 0,
+              expandedHeight: (tasksOrBoards == 1) ? 170 : 80,
               titleTextStyle:
                   TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
               backgroundColor: const Color.fromRGBO(5, 4, 43, 1),
@@ -150,9 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           'Tasks',
                           style: TextStyle(letterSpacing: 2),
                         ),
-                        onTap: (){
+                        onTap: () {
                           setState(() {
-                            value = 1;
+                            tasksOrBoards = 1;
                           });
                         },
                       ),
@@ -161,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Container(
                         height: 2,
-                        color: (value==1) ? Colors.white : Colors.grey,
+                        color: (tasksOrBoards == 1) ? Colors.white : Colors.grey,
                       )
                     ],
                   )),
@@ -174,9 +176,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           'Boards',
                           style: TextStyle(letterSpacing: 2),
                         ),
-                        onTap: (){
+                        onTap: () {
                           setState(() {
-                            value = 2;
+                            tasksOrBoards = 2;
                           });
                         },
                       ),
@@ -185,26 +187,140 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Container(
                         height: 2,
-                        color: (value!=1) ? Colors.white : Colors.grey,
+                        color: (tasksOrBoards != 1) ? Colors.white : Colors.grey,
                       )
                     ],
                   )),
                 ],
               ),
+                flexibleSpace: (tasksOrBoards == 1) ? FlexibleSpaceBar(
+                background: Padding(
+                  padding: EdgeInsets.only(top: 100, right: 20, left: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            child: Container(
+                              height: 35,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  borderRadius: BorderRadius.circular(40),
+                                  border: Border.all(
+                                      color: Colors.blueAccent, width: 1)),
+                              child: const Center(
+                                child: Text(
+                                  'Boards',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              InkWell(
+                                child: Container(
+                                  height: 35,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    color: Colors.blueAccent,
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Active',
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                child: Container(
+                                  height: 35,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(40),
+                                      border: Border.all(
+                                          color: Colors.blueAccent, width: 1)),
+                                  child: const Center(
+                                    child: Text(
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Container(height: 20,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                                child: Center(
+                              child: Text('Mon', style: TextStyle(color: (days==1) ? Colors.white : Colors.grey),),
+                            )),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                child: Center(
+                              child: Text('Tue', style: TextStyle(color: (days==2) ? Colors.white : Colors.grey),),
+                            )),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                child: Center(
+                              child: Text('Wed', style: TextStyle(color: (days==3) ? Colors.white : Colors.grey),),
+                            )),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                child: Center(
+                              child: Text('Thu', style: TextStyle(color: (days==4) ? Colors.white : Colors.grey),),
+                            )),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                child: Center(
+                              child: Text('Fri', style: TextStyle(color: (days==5) ? Colors.white : Colors.grey),),
+                            )),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                child: Center(
+                              child: Text('Sat', style: TextStyle(color: (days==6) ? Colors.white : Colors.grey),),
+                            )),
+                          ),
+                          Expanded(
+                            child: InkWell(
+                                child: Center(
+                              child: Text('Sun', style: TextStyle(color: (days==7) ? Colors.white : Colors.grey),),
+                            )),
+                          ),
+
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ): Container(),
             ),
-            (value == 1)
-                ? SliverToBoxAdapter(
-              child: ListView.builder(
-                shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                itemCount: 100,
-                  itemBuilder: (context, index){
-                return Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20),
-                  child: Tasks(),
-                );
-              }),
-            )
+            (tasksOrBoards == 1)
+                ? SliverAnimatedList(
+                    itemBuilder: (_, index, ___) {
+                      return Padding(
+                        padding: EdgeInsets.only(left: 20, right: 20),
+                        child: Tasks(),
+                      );
+                    },
+                    initialItemCount: 10,
+                  )
                 : SliverAnimatedList(
                     itemBuilder: (_, index, ___) {
                       return Padding(
@@ -217,93 +333,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      /*Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(height: 40),
-                (DateTime.now().hour >=
-                    12)
-                    ? (DateTime.now().hour >=
-                    18)
-                    ? const Text(
-                  'Good \nEvening',
-                  style: TextStyle(
-                      color: Colors.blueAccent,
-                      fontSize: 60,
-                      letterSpacing: 2),
-                )
-                    : const Text('Good \nAfternoon',
-                    style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 60,
-                        letterSpacing: 2))
-                    : const Text('Good \nMorning',
-                    style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontSize: 60,
-                        letterSpacing: 2)),
-                Container(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Today\'s ${DateFormat('EEEE').format(DateTime.now())}',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Container(
-                          height: 5,
-                        ),
-                        Text(DateFormat('MMM d, yyyy').format(DateTime.now()),
-                            style: TextStyle(color: Colors.grey, fontSize: 12))
-                      ],
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          '75% done',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        Container(
-                          height: 5,
-                        ),
-                        const Text('Completed Tasks',
-                            style: TextStyle(color: Colors.grey, fontSize: 12))
-                      ],
-                    ),
-                  ],
-                ),
-                const TabBar(
-                  indicatorColor: Colors.white,
-                  tabs: [
-                    Tab(
-                      icon: Text(
-                        'Tasks',
-                        style: TextStyle(letterSpacing: 2),
-                      ),
-                    ),
-                    Tab(
-                      icon: Text(
-                        'Board',
-                        style: TextStyle(letterSpacing: 2),
-                      ),
-                    ),
-                  ],
-                ),
-                const Expanded(
-                    child:
-                    TabBarView(children: [TAbViewTasks(), List_Boards()])),
-              ],
-            ),
-          )
-        ,*/
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {},

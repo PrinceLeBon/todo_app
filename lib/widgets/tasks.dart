@@ -33,7 +33,12 @@ class Tasks extends StatelessWidget {
                         child: IconButton(
                           onPressed: () {},
                           icon: Icon(Icons.done),
-                          color: Colors.white,
+                          color: Color.fromRGBO(
+                            5,
+                            4,
+                            43,
+                            1,
+                          ),
                         ),
                       )
                     ],

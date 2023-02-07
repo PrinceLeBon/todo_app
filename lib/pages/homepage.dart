@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/components/list_boards.dart';
-import 'package:todo_app/components/list_tasks.dart';
-import 'package:todo_app/pages/tabview/tabview_tasks.dart';
 import 'package:todo_app/widgets/boards.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
 import 'package:intl/intl.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 import 'package:todo_app/widgets/tasks.dart';
+
+import 'add_tasks_boards_pages.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
@@ -148,9 +146,30 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
-                        child: const Text(
-                          'Tasks',
-                          style: TextStyle(letterSpacing: 2),
+                        child:Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: (tasksOrBoards == 1) ? Colors.white : Color.fromRGBO(5, 4, 43, 1),
+                                  borderRadius: BorderRadius.circular(40),
+                                border: Border.all(
+                                    color: (tasksOrBoards == 1) ? Color.fromRGBO(5, 4, 43, 1) : Colors.white, width: (tasksOrBoards == 1) ? 0 : 1)
+                              ),
+                              child: Padding(
+                                padding:
+                                EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                                child: Text(
+                                  '12',
+                                  style: TextStyle(color: (tasksOrBoards == 1) ? Color.fromRGBO(5, 4, 43, 1) : Colors.white, fontSize: 12),
+                                ),
+                              ),
+                            ),
+                            Container(width: 10),
+                            const Text(
+                              'Tasks',
+                              style: TextStyle(letterSpacing: 2),
+                            )
+                          ],
                         ),
                         onTap: () {
                           setState(() {
@@ -172,9 +191,31 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       InkWell(
-                        child: const Text(
-                          'Boards',
-                          style: TextStyle(letterSpacing: 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: (tasksOrBoards == 1) ? Color.fromRGBO(5, 4, 43, 1) : Colors.white,
+                                  borderRadius: BorderRadius.circular(40),
+                                  border: Border.all(
+                                      color: (tasksOrBoards == 1) ? Colors.white : Colors.transparent, width: (tasksOrBoards == 1) ? 1 : 0)
+                              ),
+                              child: Padding(
+                                padding:
+                                EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                                child: Text(
+                                  '3',
+                                  style: TextStyle(color: (tasksOrBoards == 1) ? Colors.white : Color.fromRGBO(5, 4, 43, 1), fontSize: 12),
+                                ),
+                              ),
+                            ),
+                            Container(width: 10),
+                            const Text(
+                              'Boards',
+                              style: TextStyle(letterSpacing: 2),
+                            )
+                          ],
                         ),
                         onTap: () {
                           setState(() {
@@ -334,8 +375,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const AddTasksBoardsPage()));
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

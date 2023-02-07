@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
-import 'package:slide_to_confirm/slide_to_confirm.dart';
+
+import '../widgets/packages/confirmation_slider.dart';
 
 class View_Tasks extends StatefulWidget {
   const View_Tasks({Key? key}) : super(key: key);
@@ -26,7 +27,9 @@ class _View_TasksState extends State<View_Tasks> {
                 color: Color.fromRGBO(5, 4, 43, 1), shape: BoxShape.circle),
             child: Center(
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
                 icon: Icon(Icons.arrow_back_ios),
                 color: Colors.white,
               ),
@@ -148,7 +151,7 @@ class _View_TasksState extends State<View_Tasks> {
               Container(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'Additional Decription',
                 style: TextStyle(color: Colors.blueGrey),
               ),
@@ -194,24 +197,12 @@ class _View_TasksState extends State<View_Tasks> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(padding: EdgeInsets.only(left: 20, right: 20, bottom: 20), child: ConfirmationSlider(
-        onConfirmation: () {},
-        backgroundColor: Color.fromRGBO(
-          5,
-          4,
-          43,
-          1,
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+        child: ConfirmationSlider(
+          onConfirmation: () {},
         ),
-        text: 'Set As Done',
-        textStyle: TextStyle(color: Colors.white),
-        iconColor: Color.fromRGBO(
-          5,
-          4,
-          43,
-          1,
-        ),
-        foregroundColor: Colors.white,
-      ),),
+      ),
     );
   }
 }

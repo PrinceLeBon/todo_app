@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/components/list_tasks.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 class TAbViewTasks extends StatelessWidget {
   const TAbViewTasks({Key? key}) : super(key: key);

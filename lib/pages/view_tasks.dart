@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/globals.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
 
 import '../widgets/packages/confirmation_slider.dart';
@@ -134,14 +135,14 @@ class _View_TasksState extends State<View_Tasks> {
                     child: Stack(
                       children: [
                         Positioned(
-                          child: Profile_Picture(taille: 50),
                           bottom: 0,
                           right: 0,
+                          child: Profile_Picture(taille: 50, image: currentUser.photo,),
                         ),
                         Positioned(
-                          child: Profile_Picture(taille: 50),
                           right: 30,
                           bottom: 0,
+                          child: Profile_Picture(taille: 50, image: currentUser.photo,),
                         )
                       ],
                     ),
@@ -180,7 +181,7 @@ class _View_TasksState extends State<View_Tasks> {
               ),
               Row(
                 children: [
-                  Text(
+                  const Text(
                     'Dec 10, by Matt ',
                     style: TextStyle(
                         color: Color.fromRGBO(
@@ -190,7 +191,7 @@ class _View_TasksState extends State<View_Tasks> {
                       1,
                     )),
                   ),
-                  Profile_Picture(taille: 20)
+                  Profile_Picture(taille: 20, image: currentUser.photo,)
                 ],
               )
             ],

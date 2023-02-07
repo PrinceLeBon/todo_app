@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
                                 width: 80,
                                 height: 80,
                                 decoration: BoxDecoration(
-                                    color: Color(0xFFF1FF0A),
+                                    color: Colors.yellow[500],
                                     shape: BoxShape.circle,
                                     image: DecorationImage(
                                         image: FileImage(File(image.path)),
@@ -74,11 +74,11 @@ class _SignUpState extends State<SignUp> {
                             child: Container(
                               width: 35,
                               height: 35,
-                              decoration: BoxDecoration(
-                                  color: Colors.black, shape: BoxShape.circle),
+                              decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(5, 4, 43, 1), shape: BoxShape.circle),
                               child: Center(
-                                child: const Icon(Icons.camera_alt,
-                                    color: Color(0xFFF1FF0A)),
+                                child: Icon(Icons.camera_alt,
+                                    color: Colors.yellow[500]),
                               ),
                             ),
                           )
@@ -105,17 +105,17 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               prefixIcon:
-                              Icon(Icons.person, color: Color(0xFFF1FF0A)),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blueGrey),
+                              Icon(Icons.person, color: Colors.yellow[500]),
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.blueAccent),
+                                BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               )),
@@ -131,7 +131,7 @@ class _SignUpState extends State<SignUp> {
                           height: 10,
                         ),
                         TextFormField(
-                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          style: const TextStyle(fontSize: 13, color: Colors.white),
                           controller: myController2,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -139,17 +139,17 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             prefixIcon:
-                            Icon(Icons.person, color: Color(0xFFF1FF0A)),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blueGrey),
+                            Icon(Icons.person, color: Colors.yellow[500]),
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
                               borderRadius:
                               BorderRadius.all(Radius.circular(8)),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderSide:
-                              BorderSide(color: Colors.blueAccent),
+                              BorderSide(color: Colors.white),
                               borderRadius:
                               BorderRadius.all(Radius.circular(8)),
                             ),
@@ -174,17 +174,17 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               prefixIcon:
-                              Icon(Icons.person, color: Color(0xFFF1FF0A)),
+                              Icon(Icons.person, color: Colors.yellow[500]),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blueGrey),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.blueAccent),
+                                BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               )),
@@ -223,10 +223,10 @@ class _SignUpState extends State<SignUp> {
                                                 colorScheme:
                                                 ColorScheme.light(
                                                   primary:
-                                                  Color(0xFFF1FF0A),
+                                                  Color.fromRGBO(5, 4, 43, 1),
                                                   // <-- SEE HERE
                                                   onPrimary:
-                                                  Colors.black,
+                                                  Colors.white,
                                                   // <-- SEE HERE
                                                   onSurface: Colors
                                                       .black, // <-- SEE HERE
@@ -254,16 +254,16 @@ class _SignUpState extends State<SignUp> {
                                       });
                                     });
                                   },
-                                  icon: const Icon(Icons.date_range,
-                                      color: Color(0xFFF1FF0A))),
+                                  icon: Icon(Icons.date_range,
+                                      color: Colors.yellow[500])),
                               enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blueGrey),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.blueAccent),
+                                BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               )),
@@ -287,17 +287,17 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               prefixIcon:
-                              Icon(Icons.mail, color: Color(0xFFF1FF0A)),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blueGrey),
+                              Icon(Icons.mail, color: Colors.yellow[500]),
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.blueAccent),
+                                BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               )),
@@ -323,17 +323,17 @@ class _SignUpState extends State<SignUp> {
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               prefixIcon: Icon(Icons.password,
-                                  color: Color(0xFFF1FF0A)),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.blueGrey),
+                                  color: Colors.yellow[500]),
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               ),
-                              focusedBorder: OutlineInputBorder(
+                              focusedBorder: const OutlineInputBorder(
                                 borderSide:
-                                BorderSide(color: Colors.blueAccent),
+                                BorderSide(color: Colors.white),
                                 borderRadius:
                                 BorderRadius.all(Radius.circular(8)),
                               )),
@@ -358,7 +358,7 @@ class _SignUpState extends State<SignUp> {
                         InkWell(
                           child: Text(
                             'Connectez vous',
-                            style: TextStyle(color: Color(0xFFF1FF0A)),
+                            style: TextStyle(color: Colors.yellow[500]),
                           ),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -375,7 +375,7 @@ class _SignUpState extends State<SignUp> {
                           width: 120,
                           height: 40,
                           decoration: BoxDecoration(
-                              color: Color(0xFFF1FF0A),
+                              color: Colors.yellow[500],
                               borderRadius:
                               BorderRadius.all(Radius.circular(10))),
                           child: Center(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/globals.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
 
 import '../pages/view_tasks.dart';
@@ -20,7 +21,7 @@ class Tasks extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Profile_Picture(taille: 50),
+                  Profile_Picture(taille: 50, image: currentUser.photo),
                   Row(
                     children: [
                       Text('14h30', style: TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),),

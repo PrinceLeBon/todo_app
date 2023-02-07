@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:todo_app/pages/login/signup.dart';
 
 class Login extends StatefulWidget {
@@ -51,14 +50,14 @@ class _LoginState extends State<Login> {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.mail, color: Color(0xFFF1FF0A),),
-                            enabledBorder: OutlineInputBorder(
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.mail, color: Colors.yellow[500]),
+                            enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
                               BorderRadius.all(Radius.circular(8)),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
                               BorderRadius.all(Radius.circular(8)),
@@ -83,14 +82,14 @@ class _LoginState extends State<Login> {
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.password, color: Color(0xFFF1FF0A),),
-                            enabledBorder: OutlineInputBorder(
+                        decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.password, color: Colors.yellow[500],),
+                            enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
                               BorderRadius.all(Radius.circular(8)),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
                               BorderRadius.all(Radius.circular(8)),
@@ -106,7 +105,7 @@ class _LoginState extends State<Login> {
                         width: 120,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: Color(0xFFF1FF0A),
+                            color: Colors.yellow[500],
                             borderRadius:
                             BorderRadius.all(Radius.circular(10))),
                         child: Center(
@@ -129,7 +128,7 @@ class _LoginState extends State<Login> {
                   InkWell(
                     child: Text(
                       'Mot de passe oubié ?',
-                      style: TextStyle(color: Color(0xFFF1FF0A)),
+                      style: TextStyle(color: Colors.yellow[500]),
                     ),
                     onTap: () {
                       print('On ma tapéééé');
@@ -148,7 +147,7 @@ class _LoginState extends State<Login> {
                       InkWell(
                         child: Text(
                           'Créez un compte',
-                          style: TextStyle(color: Color(0xFFF1FF0A)),
+                          style: TextStyle(color: Colors.yellow[500]),
                         ),
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(

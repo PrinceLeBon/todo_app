@@ -28,7 +28,7 @@ class Boards extends StatelessWidget {
                       ),
                       child: IconButton(onPressed: (){}, icon: Icon(Icons.add)),
                     ),
-                    Profile_Picture(taille: 50)
+                    const Profile_Picture(taille: 50, image: '',)
                   ],
                 ),
                 Container(

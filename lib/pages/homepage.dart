@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/boards.dart';
+import 'package:todo_app/widgets/custom_drawer.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/widgets/tasks.dart';
 
+import '../models/globals.dart';
+import '../models/user.dart';
 import 'add_tasks_boards_pages.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -17,11 +22,21 @@ class _MyHomePageState extends State<MyHomePage> {
   late final ScrollController? controller;
   int tasksOrBoards = 1;
   int days = 1;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfilePicture();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: const Color.fromRGBO(5, 4, 43, 1),
+      drawer: const CustomDrawer(),
       body: Container(
         margin: MediaQuery.of(context).padding,
         child: CustomScrollView(
@@ -32,7 +47,18 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Color.fromRGBO(5, 4, 43, 1),
               //const Color.fromRGBO(5, 4, 43, 1),
               expandedHeight: 300,
-              title: const Profile_Picture(taille: 50),
+              leading: Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: InkWell(
+                  child: Profile_Picture(
+                    taille: 50,
+                    image: currentUser.photo,
+                  ),
+                  onTap: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                ),
+              ),
               actions: [
                 Container(
                   decoration: const BoxDecoration(
@@ -138,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
               titleTextStyle:
                   TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
               backgroundColor: const Color.fromRGBO(5, 4, 43, 1),
+              leading: Icon(Icons.menu),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -146,21 +173,29 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InkWell(
-                        child:Row(
+                        child: Row(
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color: (tasksOrBoards == 1) ? Colors.white : Color.fromRGBO(5, 4, 43, 1),
+                                  color: (tasksOrBoards == 1)
+                                      ? Colors.white
+                                      : Color.fromRGBO(5, 4, 43, 1),
                                   borderRadius: BorderRadius.circular(40),
-                                border: Border.all(
-                                    color: (tasksOrBoards == 1) ? Color.fromRGBO(5, 4, 43, 1) : Colors.white, width: (tasksOrBoards == 1) ? 0 : 1)
-                              ),
+                                  border: Border.all(
+                                      color: (tasksOrBoards == 1)
+                                          ? Color.fromRGBO(5, 4, 43, 1)
+                                          : Colors.white,
+                                      width: (tasksOrBoards == 1) ? 0 : 1)),
                               child: Padding(
-                                padding:
-                                EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                                padding: EdgeInsets.only(
+                                    top: 5, bottom: 5, left: 10, right: 10),
                                 child: Text(
                                   '12',
-                                  style: TextStyle(color: (tasksOrBoards == 1) ? Color.fromRGBO(5, 4, 43, 1) : Colors.white, fontSize: 12),
+                                  style: TextStyle(
+                                      color: (tasksOrBoards == 1)
+                                          ? Color.fromRGBO(5, 4, 43, 1)
+                                          : Colors.white,
+                                      fontSize: 12),
                                 ),
                               ),
                             ),
@@ -182,7 +217,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Container(
                         height: 2,
-                        color: (tasksOrBoards == 1) ? Colors.white : Colors.grey,
+                        color:
+                            (tasksOrBoards == 1) ? Colors.white : Colors.grey,
                       )
                     ],
                   )),
@@ -196,17 +232,25 @@ class _MyHomePageState extends State<MyHomePage> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  color: (tasksOrBoards == 1) ? Color.fromRGBO(5, 4, 43, 1) : Colors.white,
+                                  color: (tasksOrBoards == 1)
+                                      ? Color.fromRGBO(5, 4, 43, 1)
+                                      : Colors.white,
                                   borderRadius: BorderRadius.circular(40),
                                   border: Border.all(
-                                      color: (tasksOrBoards == 1) ? Colors.white : Colors.transparent, width: (tasksOrBoards == 1) ? 1 : 0)
-                              ),
+                                      color: (tasksOrBoards == 1)
+                                          ? Colors.white
+                                          : Colors.transparent,
+                                      width: (tasksOrBoards == 1) ? 1 : 0)),
                               child: Padding(
-                                padding:
-                                EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                                padding: EdgeInsets.only(
+                                    top: 5, bottom: 5, left: 10, right: 10),
                                 child: Text(
                                   '3',
-                                  style: TextStyle(color: (tasksOrBoards == 1) ? Colors.white : Color.fromRGBO(5, 4, 43, 1), fontSize: 12),
+                                  style: TextStyle(
+                                      color: (tasksOrBoards == 1)
+                                          ? Colors.white
+                                          : Color.fromRGBO(5, 4, 43, 1),
+                                      fontSize: 12),
                                 ),
                               ),
                             ),
@@ -228,129 +272,181 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       Container(
                         height: 2,
-                        color: (tasksOrBoards != 1) ? Colors.white : Colors.grey,
+                        color:
+                            (tasksOrBoards != 1) ? Colors.white : Colors.grey,
                       )
                     ],
                   )),
                 ],
               ),
-                flexibleSpace: (tasksOrBoards == 1) ? FlexibleSpaceBar(
-                background: Padding(
-                  padding: EdgeInsets.only(top: 100, right: 20, left: 20),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            child: Container(
-                              height: 35,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(40),
-                                  border: Border.all(
-                                      color: Colors.blueAccent, width: 1)),
-                              child: const Center(
-                                child: Text(
-                                  'Boards',
-                                  style: TextStyle(color: Colors.white),
+              flexibleSpace: (tasksOrBoards == 1)
+                  ? FlexibleSpaceBar(
+                      background: Padding(
+                        padding: EdgeInsets.only(top: 100, right: 20, left: 20),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                InkWell(
+                                  child: Container(
+                                    height: 35,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(40),
+                                        border: Border.all(
+                                            color: Colors.blueAccent,
+                                            width: 1)),
+                                    child: const Center(
+                                      child: Text(
+                                        'Boards',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      child: Container(
+                                        height: 35,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                          color: Colors.blueAccent,
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                        ),
+                                        child: const Center(
+                                          child: Text(
+                                            'Active',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      child: Container(
+                                        height: 35,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            color: Colors.transparent,
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            border: Border.all(
+                                                color: Colors.blueAccent,
+                                                width: 1)),
+                                        child: const Center(
+                                          child: Text(
+                                            'Done',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
                             ),
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                child: Container(
-                                  height: 35,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    color: Colors.blueAccent,
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: const Center(
+                            Container(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                      child: Center(
                                     child: Text(
-                                      'Active',
-                                      style: TextStyle(color: Colors.black),
+                                      'Mon',
+                                      style: TextStyle(
+                                          color: (days == 1)
+                                              ? Colors.white
+                                              : Colors.grey),
                                     ),
-                                  ),
+                                  )),
                                 ),
-                              ),
-                              InkWell(
-                                child: Container(
-                                  height: 35,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      borderRadius: BorderRadius.circular(40),
-                                      border: Border.all(
-                                          color: Colors.blueAccent, width: 1)),
-                                  child: const Center(
+                                Expanded(
+                                  child: InkWell(
+                                      child: Center(
                                     child: Text(
-                                      'Done',
-                                      style: TextStyle(color: Colors.white),
+                                      'Tue',
+                                      style: TextStyle(
+                                          color: (days == 2)
+                                              ? Colors.white
+                                              : Colors.grey),
                                     ),
-                                  ),
+                                  )),
                                 ),
-                              )
-                            ],
-                          )
-                        ],
+                                Expanded(
+                                  child: InkWell(
+                                      child: Center(
+                                    child: Text(
+                                      'Wed',
+                                      style: TextStyle(
+                                          color: (days == 3)
+                                              ? Colors.white
+                                              : Colors.grey),
+                                    ),
+                                  )),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                      child: Center(
+                                    child: Text(
+                                      'Thu',
+                                      style: TextStyle(
+                                          color: (days == 4)
+                                              ? Colors.white
+                                              : Colors.grey),
+                                    ),
+                                  )),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                      child: Center(
+                                    child: Text(
+                                      'Fri',
+                                      style: TextStyle(
+                                          color: (days == 5)
+                                              ? Colors.white
+                                              : Colors.grey),
+                                    ),
+                                  )),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                      child: Center(
+                                    child: Text(
+                                      'Sat',
+                                      style: TextStyle(
+                                          color: (days == 6)
+                                              ? Colors.white
+                                              : Colors.grey),
+                                    ),
+                                  )),
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                      child: Center(
+                                    child: Text(
+                                      'Sun',
+                                      style: TextStyle(
+                                          color: (days == 7)
+                                              ? Colors.white
+                                              : Colors.grey),
+                                    ),
+                                  )),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                      Container(height: 20,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                                child: Center(
-                              child: Text('Mon', style: TextStyle(color: (days==1) ? Colors.white : Colors.grey),),
-                            )),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                                child: Center(
-                              child: Text('Tue', style: TextStyle(color: (days==2) ? Colors.white : Colors.grey),),
-                            )),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                                child: Center(
-                              child: Text('Wed', style: TextStyle(color: (days==3) ? Colors.white : Colors.grey),),
-                            )),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                                child: Center(
-                              child: Text('Thu', style: TextStyle(color: (days==4) ? Colors.white : Colors.grey),),
-                            )),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                                child: Center(
-                              child: Text('Fri', style: TextStyle(color: (days==5) ? Colors.white : Colors.grey),),
-                            )),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                                child: Center(
-                              child: Text('Sat', style: TextStyle(color: (days==6) ? Colors.white : Colors.grey),),
-                            )),
-                          ),
-                          Expanded(
-                            child: InkWell(
-                                child: Center(
-                              child: Text('Sun', style: TextStyle(color: (days==7) ? Colors.white : Colors.grey),),
-                            )),
-                          ),
-
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ): Container(),
+                    )
+                  : Container(),
             ),
             (tasksOrBoards == 1)
                 ? SliverAnimatedList(
@@ -384,5 +480,31 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  Future<void> getProfilePicture() async {
+    final String userId = (FirebaseAuth.instance.currentUser?.uid)!;
+    CollectionReference userCollection =
+        FirebaseFirestore.instance.collection("users");
+    QuerySnapshot querySnapshot =
+        await userCollection.where("id", isEqualTo: userId).limit(1).get();
+    if (querySnapshot.docs.isNotEmpty) {
+      print('username trouvé');
+      for (var doc in querySnapshot.docs) {
+        Map<String, dynamic> userFound = doc.data() as Map<String, dynamic>;
+        setState(() {
+          currentUser = Users(
+              userFound['id'],
+              userFound['nom'],
+              userFound['prenom'],
+              userFound['photo'],
+              userFound['date_de_naissance'],
+              userFound['username'],
+              userFound['email']);
+        });
+      }
+    } else {
+      print('username non trouvé');
+    }
   }
 }

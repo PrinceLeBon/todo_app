@@ -6,6 +6,7 @@ import 'package:todo_app/models/globals.dart';
 
 import '../models/boards.dart';
 import '../models/task.dart';
+import '../widgets/boards.dart';
 
 class AddTasksBoardsPage extends StatefulWidget {
   const AddTasksBoardsPage({Key? key}) : super(key: key);
@@ -31,11 +32,10 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          (tasksOrBoards == 1) ? Colors.yellow[500] : Colors.blue[200],
+      backgroundColor: (tasksOrBoards == 1) ? global_yellow : Colors.blue[200],
       appBar: AppBar(
           backgroundColor:
-              (tasksOrBoards == 1) ? Colors.yellow[500] : Colors.blue[200],
+              (tasksOrBoards == 1) ? global_yellow : Colors.blue[200],
           elevation: 0,
           leading: Padding(
             padding: const EdgeInsets.only(left: 10),
@@ -111,7 +111,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                           height: 2,
                           color: (tasksOrBoards != 1)
                               ? Color.fromRGBO(5, 4, 43, 1)
-                              : Colors.grey,
+                              : Colors.white,
                         )
                       ],
                     ))
@@ -136,7 +136,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                 ),
                                 TextFormField(
                                   style: const TextStyle(
-                                      fontSize: 13, color: Colors.white),
+                                      fontSize: 13,
+                                      color: Color.fromRGBO(5, 4, 43, 1)),
                                   controller: myController1,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -172,6 +173,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                   height: 10,
                                 ),
                                 TextFormField(
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: null,
                                   style: const TextStyle(
                                       fontSize: 13,
                                       color: Color.fromRGBO(5, 4, 43, 1)),
@@ -203,186 +206,321 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                 Container(
                                   height: 20,
                                 ),
-                                const Text(
-                                  'Date : ',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(5, 4, 43, 1)),
-                                ),
-                                Container(
-                                  height: 10,
-                                ),
-                                TextFormField(
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      color: Color.fromRGBO(5, 4, 43, 1)),
-                                  readOnly: true,
-                                  controller: myController3,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please choose a date';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                      prefixIcon: IconButton(
-                                          onPressed: () {
-                                            showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime.now(),
-                                                    builder: (context, child) {
-                                                      return Theme(
-                                                          data:
-                                                              Theme.of(context)
-                                                                  .copyWith(
-                                                            colorScheme:
-                                                                const ColorScheme
-                                                                    .light(
-                                                              primary: Color
-                                                                  .fromRGBO(5,
-                                                                      4, 43, 1),
-                                                              // <-- SEE HERE
-                                                              onPrimary:
-                                                                  Colors.white,
-                                                              // <-- SEE HERE
-                                                              onSurface: Colors
-                                                                  .black, // <-- SEE HERE
-                                                            ),
-                                                            textButtonTheme:
-                                                                TextButtonThemeData(
-                                                              style: TextButton
-                                                                  .styleFrom(
-                                                                primary: Colors
-                                                                    .black, // button text color
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          child: child!);
+
+                                ///
+                                Row(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Date : ',
+                                          style: TextStyle(
+                                              color:
+                                                  Color.fromRGBO(5, 4, 43, 1)),
+                                        ),
+                                        Container(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.3,
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Color.fromRGBO(
+                                                    5, 4, 43, 1)),
+                                            readOnly: true,
+                                            controller: myController3,
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please choose a date';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                                prefixIcon: IconButton(
+                                                    onPressed: () {
+                                                      showDatePicker(
+                                                              context: context,
+                                                              initialDate:
+                                                                  DateTime
+                                                                      .now(),
+                                                              firstDate:
+                                                                  DateTime
+                                                                      .now(),
+                                                              builder: (context,
+                                                                  child) {
+                                                                return Theme(
+                                                                    data: Theme.of(
+                                                                            context)
+                                                                        .copyWith(
+                                                                      colorScheme:
+                                                                          const ColorScheme
+                                                                              .light(
+                                                                        primary: Color.fromRGBO(
+                                                                            5,
+                                                                            4,
+                                                                            43,
+                                                                            1),
+                                                                        // <-- SEE HERE
+                                                                        onPrimary:
+                                                                            Colors.white,
+                                                                        // <-- SEE HERE
+                                                                        onSurface:
+                                                                            Colors.black, // <-- SEE HERE
+                                                                      ),
+                                                                      textButtonTheme:
+                                                                          TextButtonThemeData(
+                                                                        style: TextButton
+                                                                            .styleFrom(
+                                                                          primary:
+                                                                              Colors.black, // button text color
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    child:
+                                                                        child!);
+                                                              },
+                                                              lastDate:
+                                                                  DateTime(
+                                                                      3000),
+                                                              initialEntryMode:
+                                                                  DatePickerEntryMode
+                                                                      .calendar)
+                                                          .then((value) {
+                                                        setState(() {
+                                                          _date = value!;
+                                                          myController3
+                                                              .text = DateFormat(
+                                                                  'dd-MM-yyyy')
+                                                              .format(_date);
+                                                        });
+                                                      });
                                                     },
-                                                    lastDate: DateTime(3000),
-                                                    initialEntryMode:
-                                                        DatePickerEntryMode
-                                                            .calendar)
-                                                .then((value) {
-                                              setState(() {
-                                                _date = value!;
-                                                myController3.text =
-                                                    DateFormat('dd-MM-yyyy')
-                                                        .format(_date);
-                                              });
-                                            });
-                                          },
-                                          icon: const Icon(Icons.date_range,
+                                                    icon: const Icon(
+                                                        Icons.date_range,
+                                                        color: Color.fromRGBO(
+                                                            5, 4, 43, 1))),
+                                                enabledBorder:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          5, 4, 43, 1)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                ),
+                                                focusedBorder:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          5, 4, 43, 1)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                )),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      width: 10,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          'Hour : ',
+                                          style: TextStyle(
                                               color:
-                                                  Color.fromRGBO(5, 4, 43, 1))),
-                                      enabledBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(5, 4, 43, 1)),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                      ),
-                                      focusedBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(5, 4, 43, 1)),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                      )),
+                                                  Color.fromRGBO(5, 4, 43, 1)),
+                                        ),
+                                        Container(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              2.3,
+                                          child: TextFormField(
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                color: Color.fromRGBO(
+                                                    5, 4, 43, 1)),
+                                            readOnly: true,
+                                            controller: myController4,
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please choose an hour';
+                                              }
+                                              return null;
+                                            },
+                                            decoration: InputDecoration(
+                                                prefixIcon: IconButton(
+                                                    onPressed: () {
+                                                      showTimePicker(
+                                                          context: context,
+                                                          initialTime:
+                                                              TimeOfDay.now(),
+                                                          builder:
+                                                              (context, child) {
+                                                            return Theme(
+                                                                data: Theme.of(
+                                                                        context)
+                                                                    .copyWith(
+                                                                  colorScheme:
+                                                                      const ColorScheme
+                                                                          .light(
+                                                                    primary: Color
+                                                                        .fromRGBO(
+                                                                            5,
+                                                                            4,
+                                                                            43,
+                                                                            1),
+                                                                    // <-- SEE HERE
+                                                                    onPrimary:
+                                                                        Colors
+                                                                            .white,
+                                                                    // <-- SEE HERE
+                                                                    onSurface:
+                                                                        Colors
+                                                                            .black,
+                                                                  ),
+                                                                  textButtonTheme:
+                                                                      TextButtonThemeData(
+                                                                    style: TextButton
+                                                                        .styleFrom(
+                                                                      primary:
+                                                                          Colors
+                                                                              .black, // button text color
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                child: child!);
+                                                          }).then((value) {
+                                                        setState(() {
+                                                          _time = value!;
+                                                          myController4
+                                                              .text = value.hour
+                                                                  .toString() +
+                                                              ':' +
+                                                              value.minute
+                                                                  .toString();
+                                                        });
+                                                      });
+                                                    },
+                                                    icon: const Icon(
+                                                        Icons
+                                                            .timelapse_outlined,
+                                                        color: Color.fromRGBO(
+                                                            5, 4, 43, 1))),
+                                                enabledBorder:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          5, 4, 43, 1)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                ),
+                                                focusedBorder:
+                                                    const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color.fromRGBO(
+                                                          5, 4, 43, 1)),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                )),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
                                 ),
                                 Container(
                                   height: 20,
                                 ),
-                                const Text(
-                                  'Hour : ',
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(5, 4, 43, 1)),
-                                ),
-                                Container(
-                                  height: 10,
-                                ),
-                                TextFormField(
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      color: Color.fromRGBO(5, 4, 43, 1)),
-                                  readOnly: true,
-                                  controller: myController4,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please choose an hour';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: InputDecoration(
-                                      prefixIcon: IconButton(
-                                          onPressed: () {
-                                            showTimePicker(
-                                                context: context,
-                                                initialTime: TimeOfDay.now(),
-                                                builder: (context, child) {
-                                                  return Theme(
-                                                      data: Theme.of(context)
-                                                          .copyWith(
-                                                        colorScheme:
-                                                            const ColorScheme
-                                                                .light(
-                                                          primary:
-                                                              Color.fromRGBO(
-                                                                  5, 4, 43, 1),
-                                                          // <-- SEE HERE
-                                                          onPrimary:
-                                                              Colors.white,
-                                                          // <-- SEE HERE
-                                                          onSurface:
-                                                              Colors.black,
-                                                        ),
-                                                        textButtonTheme:
-                                                            TextButtonThemeData(
-                                                          style: TextButton
-                                                              .styleFrom(
-                                                            primary: Colors
-                                                                .black, // button text color
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      child: child!);
-                                                }).then((value) {
+                                StreamBuilder<List<Board_Model>>(
+                                    stream: readBoards(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) {
+                                        return Text(
+                                            'Something has wrong! ${snapshot.error}');
+                                      } else if (snapshot.hasData) {
+                                        final List<Board_Model> listBoard =
+                                            snapshot.data!;
+                                        if (listBoard.isEmpty) {
+                                          return DropdownButtonFormField(
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please choose a board';
+                                              }
+                                              return null;
+                                            },
+                                            hint: Text('DropDownButton : ',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        5, 4, 43, 1))),
+                                            icon: const Icon(
+                                              Icons.arrow_downward,
+                                              color: Colors.black,
+                                            ),
+                                            items: null,
+                                            value: myController5.text.trim(),
+                                            isExpanded: true,
+                                            onChanged: null,
+                                          );
+                                        } else {
+                                          return DropdownButtonFormField(
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please choose a board';
+                                              }
+                                              return null;
+                                            },
+                                            hint: Text('Board : ',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        5, 4, 43, 1))),
+                                            icon: const Icon(
+                                              Icons.arrow_downward,
+                                              color: Colors.black,
+                                            ),
+                                            items: listBoard.map((Board_Model b) {
+                                              return DropdownMenuItem<String>(
+                                                value: b.titre,
+                                                child: Text(b.titre),
+                                              );
+                                            }).toList(),
+                                            isExpanded: true,
+                                            onChanged: (String? value) {
                                               setState(() {
-                                                _time = value!;
-                                                myController4.text =
-                                                    value.hour.toString() +
-                                                        ':' +
-                                                        value.minute.toString();
+                                                myController5.text = value!;
                                               });
-                                            });
-                                          },
-                                          icon: const Icon(
-                                              Icons.timelapse_outlined,
-                                              color:
-                                                  Color.fromRGBO(5, 4, 43, 1))),
-                                      enabledBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(5, 4, 43, 1)),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                      ),
-                                      focusedBorder: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(5, 4, 43, 1)),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                      )),
-                                ),
-                                Container(
-                                  height: 20,
-                                ),
-                                const Text('Board : ',
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(5, 4, 43, 1))),
-                                Container(
-                                  height: 10,
-                                ),
-                                TextFormField(
+                                            },
+                                          );
+                                        }
+                                      } else {
+                                        return const Center(
+                                          child: CircularProgressIndicator(
+                                              color: Color(0xFFF1FF0A)),
+                                        );
+                                      }
+                                    }),
+                                /*TextFormField(
                                   style: const TextStyle(
-                                      fontSize: 13, color: Colors.white),
+                                      fontSize: 13, color: Color.fromRGBO(5, 4, 43, 1)),
                                   controller: myController5,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -407,7 +545,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)),
                                       )),
-                                ),
+                                ),*/
                                 Container(
                                   height: 20,
                                 ),
@@ -434,20 +572,20 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                   )),
                               onTap: () {
                                 if (_formKey.currentState!.validate()) {
-                                  addTasksToFirebase(Tasks(
+                                  addTasksToFirebase(Task_Model(
                                       id: 'id',
                                       id_board: myController5.text.trim(),
                                       id_user: currentUser.id,
                                       titre: myController1.text.trim(),
                                       description: myController2.text.trim(),
                                       etat: 'loading',
-                                      date_de_creation:
+                                      date_de_creation: DateTime.now()
+                                          /*DateFormat('dd-MM-yyyy H:m:s')
+                                              .format(DateTime.now())*/,
+                                      date_pour_la_tache: _date/*
                                           DateFormat('dd-MM-yyyy H:m:s')
-                                              .format(DateTime.now()),
-                                      date_pour_la_tache:
-                                          DateFormat('dd-MM-yyyy H:m:s')
-                                              .format(_date),
-                                      idd: 0,
+                                              .format(_date)*/,
+                                      //idd: 0,
                                       heure_pour_la_tache:
                                           myController4.text.trim()));
                                 }
@@ -470,7 +608,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                 ),
                                 TextFormField(
                                   style: const TextStyle(
-                                      fontSize: 13, color: Colors.white),
+                                      fontSize: 13,
+                                      color: Color.fromRGBO(5, 4, 43, 1)),
                                   controller: myController6,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -511,7 +650,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                   style: const TextStyle(
                                       fontSize: 13,
                                       color: Color.fromRGBO(5, 4, 43, 1)),
-                                  readOnly: true,
+                                  //readOnly: true,
                                   controller: myController7,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -560,7 +699,14 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                     ),
                                   )),
                               onTap: () {
-                                if (_formKey.currentState!.validate()) {}
+                                if (_formKey.currentState!.validate()) {
+                                  addBoardsToFirebase(Board_Model(
+                                      id: 'id',
+                                      id_user: 'id_user',
+                                      titre: myController6.text.trim(),
+                                      couleur: myController7.text.trim(),
+                                      idd: 0));
+                                }
                               },
                             )
                           ],
@@ -571,7 +717,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
     );
   }
 
-  Future addTasksToFirebase(Tasks task) async {
+  Future addTasksToFirebase(Task_Model task) async {
     final docTasks = FirebaseFirestore.instance
         .collection('users')
         .doc(currentUser.id)
@@ -580,12 +726,19 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
     final QuerySnapshot _docTasks =
         await FirebaseFirestore.instance.collection('tasks').get();
     task.id = docTasks.id;
-    task.idd = _docTasks.docs.length;
+    //task.idd = _docTasks.docs.length;
     final json = task.toJson();
     await docTasks.set(json);
+    setState(() {
+      myController1.text = '';
+      myController2.text = '';
+      myController3.text = '';
+      myController4.text = '';
+      myController5.text = '';
+    });
   }
 
-  Future addBoardsToFirebase(Board board) async {
+  Future addBoardsToFirebase(Board_Model board) async {
     final docBoards = FirebaseFirestore.instance
         .collection('users')
         .doc(currentUser.id)
@@ -594,8 +747,25 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
     final QuerySnapshot _docBoards =
         await FirebaseFirestore.instance.collection('boards').get();
     board.id = docBoards.id;
+    board.couleur = 'Colors.blue[200]';
     board.idd = _docBoards.docs.length;
     final json = board.toJson();
+    setState(() {
+      myController6.text = '';
+      myController7.text = '';
+    });
     await docBoards.set(json);
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Ajout du board')),
+    );
   }
+
+  Stream<List<Board_Model>> readBoards() => FirebaseFirestore.instance
+      .collection('users')
+      .doc(currentUser.id)
+      .collection('boards')
+      .orderBy("titre")
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((doc) => Board_Model.fromJson(doc.data())).toList());
 }

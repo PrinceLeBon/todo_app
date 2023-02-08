@@ -7,7 +7,9 @@ import 'package:todo_app/widgets/profile_picture.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/widgets/tasks.dart';
 
+import '../models/boards.dart';
 import '../models/globals.dart';
+import '../models/task.dart';
 import '../models/user.dart';
 import 'add_tasks_boards_pages.dart';
 
@@ -449,24 +451,70 @@ class _MyHomePageState extends State<MyHomePage> {
                   : Container(),
             ),
             (tasksOrBoards == 1)
-                ? SliverAnimatedList(
-                    itemBuilder: (_, index, ___) {
-                      return Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Tasks(),
+                ? StreamBuilder<List<Task_Model>>(
+                    stream: readTasks(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something has wrong! ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        final List<Task_Model> listTasks = snapshot.data!;
+                        if (listTasks.isEmpty) {
+                          return const Center(
+                              child: Text(
+                            'No Tasks',
+                            style: TextStyle(color: Colors.white),
+                          ));
+                        } else {
+                          return SliverAnimatedList(
+                            itemBuilder: (_, index, ___) {
+                              return const Padding(
+                                padding: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 10),
+                                child: Tasks(),
+                              );
+                            },
+                            initialItemCount: listTasks.length,
+                          );
+                        }
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                              color: Color(0xFFF1FF0A)),
+                        );
+                      }
+                    })
+                : StreamBuilder<List<Board_Model>>(
+                stream: readBoards(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Text('Something has wrong! ${snapshot.error}');
+                  } else if (snapshot.hasData) {
+                    final List<Board_Model> listBoards = snapshot.data!;
+                    if (listBoards.isEmpty) {
+                      return const Center(
+                          child: Text(
+                            'No Boards',
+                            style: TextStyle(color: Colors.white),
+                          ));
+                    } else {
+                      return SliverAnimatedList(
+                        itemBuilder: (_, index, ___) {
+                          return const Padding(
+                            padding: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 10),
+                            child: Boards(),
+                          );
+                        },
+                        initialItemCount: listBoards.length,
                       );
-                    },
-                    initialItemCount: 10,
-                  )
-                : SliverAnimatedList(
-                    itemBuilder: (_, index, ___) {
-                      return Padding(
-                        padding: EdgeInsets.only(left: 20, right: 20),
-                        child: Boards(),
-                      );
-                    },
-                    initialItemCount: 100,
-                  )
+                    }
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                          color: Color(0xFFF1FF0A)),
+                    );
+                  }
+                })
           ],
         ),
       ),
@@ -507,4 +555,22 @@ class _MyHomePageState extends State<MyHomePage> {
       print('username non trouvé');
     }
   }
+
+  Stream<List<Task_Model>> readTasks() => FirebaseFirestore.instance
+      .collection('users')
+      .doc(currentUser.id)
+      .collection('tasks')
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((doc) => Task_Model.fromJson(doc.data())).toList());
+
+  Stream<List<Board_Model>> readBoards() => FirebaseFirestore.instance
+      .collection('users')
+      .doc(currentUser.id)
+      .collection('boards')
+      .orderBy("titre")
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Board_Model.fromJson(doc.data()))
+          .toList());
 }

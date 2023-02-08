@@ -1,16 +1,16 @@
-class Tasks {
+class Task_Model {
   late String id;
   late String id_board;
   late String id_user;
   late String titre;
   late String description;
   late String etat;
-  late String date_de_creation;
-  late String date_pour_la_tache;
+  late DateTime date_de_creation;
+  late DateTime date_pour_la_tache;
   late String heure_pour_la_tache;
-  late int idd;
+  //late int idd;
 
-  Tasks({
+  Task_Model({
     required this.id,
     required this.id_board,
     required this.id_user,
@@ -20,7 +20,7 @@ class Tasks {
     required this.date_de_creation,
     required this.date_pour_la_tache,
     required this.heure_pour_la_tache,
-    required this.idd,
+   // required this.idd,
   });
 
   Map<String, dynamic> toJson() => {
@@ -33,10 +33,10 @@ class Tasks {
         'date_de_creation': date_de_creation,
         'date_pour_la_tache': date_pour_la_tache,
         'heure_pour_la_tache': heure_pour_la_tache,
-        'idd': idd,
+        //'idd': idd,
       };
 
-  static Tasks fromJson(Map<String, dynamic> json) => Tasks(
+  static Task_Model fromJson(Map<String, dynamic> json) => Task_Model(
         id: json['id'],
         id_board: json['id_board'],
         id_user: json['id_user'],
@@ -46,6 +46,6 @@ class Tasks {
         date_de_creation: json['date_de_creation'],
         date_pour_la_tache: json['date_pour_la_tache'],
         heure_pour_la_tache: json['heure_pour_la_tache'],
-        idd: json['idd'],
+     //   idd: json['idd'],
       );
 }

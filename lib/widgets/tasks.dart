@@ -12,7 +12,7 @@ class Tasks extends StatelessWidget {
     return InkWell(
       child: Container(
         decoration: BoxDecoration(
-            color: Colors.yellow[500], borderRadius: BorderRadius.circular(30)),
+            color: global_yellow, borderRadius: BorderRadius.circular(30)),
         child: Padding(
           padding: EdgeInsets.all(15),
           child: Column(

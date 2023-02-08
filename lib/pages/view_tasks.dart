@@ -15,9 +15,9 @@ class _View_TasksState extends State<View_Tasks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[500],
+      backgroundColor: global_yellow,
       appBar: AppBar(
-        backgroundColor: Colors.yellow[500],
+        backgroundColor: global_yellow,
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.only(left: 10),

@@ -453,6 +453,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                     stream: readBoards(),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasError) {
+                                        print('Something has wrong! ${snapshot.error}');
                                         return Text(
                                             'Something has wrong! ${snapshot.error}');
                                       } else if (snapshot.hasData) {
@@ -705,7 +706,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                       id_user: 'id_user',
                                       titre: myController6.text.trim(),
                                       couleur: myController7.text.trim(),
-                                      idd: 0));
+                                      idd: 0, listOfAssignee: [currentUser.id]));
                                 }
                               },
                             )
@@ -728,7 +729,6 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
     task.id = docTasks.id;
     //task.idd = _docTasks.docs.length;
     final json = task.toJson();
-    await docTasks.set(json);
     setState(() {
       myController1.text = '';
       myController2.text = '';
@@ -736,6 +736,10 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
       myController4.text = '';
       myController5.text = '';
     });
+    await docTasks.set(json).onError((e, _) => print("Error writing Tasks document: $e"));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Ajout du board')),
+    );
   }
 
   Future addBoardsToFirebase(Board_Model board) async {
@@ -754,7 +758,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
       myController6.text = '';
       myController7.text = '';
     });
-    await docBoards.set(json);
+    await docBoards.set(json).onError((e, _) => print("Error writing Boards document: $e"));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Ajout du board')),
     );

@@ -455,7 +455,7 @@ class _SignUpState extends State<SignUp> {
     user.id = docUser.id;
     user.photo = await ref.getDownloadURL();
     final json = user.toJson();
-    await docUser.set(json);
+    await docUser.set(json).onError((e, _) => print("Error writing users document: $e"));;
   }
 
   Future pickImage(ImageSource source) async {

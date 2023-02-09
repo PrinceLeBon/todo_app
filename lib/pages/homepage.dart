@@ -360,87 +360,125 @@ class _MyHomePageState extends State<MyHomePage> {
                               children: [
                                 Expanded(
                                   child: InkWell(
-                                      child: Center(
-                                    child: Text(
-                                      'Mon',
-                                      style: TextStyle(
-                                          color: (days == 1)
-                                              ? Colors.white
-                                              : Colors.grey),
+                                    child: Center(
+                                      child: Text(
+                                        'Mon',
+                                        style: TextStyle(
+                                            color: (days == 1)
+                                                ? Colors.white
+                                                : Colors.grey),
+                                      ),
                                     ),
-                                  )),
+                                    onTap: () {
+                                      setState(() {
+                                        days = 1;
+                                      });
+                                    },
+                                  ),
                                 ),
                                 Expanded(
                                   child: InkWell(
                                       child: Center(
-                                    child: Text(
-                                      'Tue',
-                                      style: TextStyle(
-                                          color: (days == 2)
-                                              ? Colors.white
-                                              : Colors.grey),
-                                    ),
-                                  )),
+                                        child: Text(
+                                          'Tue',
+                                          style: TextStyle(
+                                              color: (days == 2)
+                                                  ? Colors.white
+                                                  : Colors.grey),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          days = 2;
+                                        });
+                                      }),
                                 ),
                                 Expanded(
                                   child: InkWell(
                                       child: Center(
-                                    child: Text(
-                                      'Wed',
-                                      style: TextStyle(
-                                          color: (days == 3)
-                                              ? Colors.white
-                                              : Colors.grey),
-                                    ),
-                                  )),
+                                        child: Text(
+                                          'Wed',
+                                          style: TextStyle(
+                                              color: (days == 3)
+                                                  ? Colors.white
+                                                  : Colors.grey),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          days = 3;
+                                        });
+                                      }),
                                 ),
                                 Expanded(
                                   child: InkWell(
                                       child: Center(
-                                    child: Text(
-                                      'Thu',
-                                      style: TextStyle(
-                                          color: (days == 4)
-                                              ? Colors.white
-                                              : Colors.grey),
-                                    ),
-                                  )),
+                                        child: Text(
+                                          'Thu',
+                                          style: TextStyle(
+                                              color: (days == 4)
+                                                  ? Colors.white
+                                                  : Colors.grey),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          days = 4;
+                                        });
+                                      }),
                                 ),
                                 Expanded(
                                   child: InkWell(
                                       child: Center(
-                                    child: Text(
-                                      'Fri',
-                                      style: TextStyle(
-                                          color: (days == 5)
-                                              ? Colors.white
-                                              : Colors.grey),
-                                    ),
-                                  )),
+                                        child: Text(
+                                          'Fri',
+                                          style: TextStyle(
+                                              color: (days == 5)
+                                                  ? Colors.white
+                                                  : Colors.grey),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          days = 5;
+                                        });
+                                      }),
                                 ),
                                 Expanded(
                                   child: InkWell(
                                       child: Center(
-                                    child: Text(
-                                      'Sat',
-                                      style: TextStyle(
-                                          color: (days == 6)
-                                              ? Colors.white
-                                              : Colors.grey),
-                                    ),
-                                  )),
+                                        child: Text(
+                                          'Sat',
+                                          style: TextStyle(
+                                              color: (days == 6)
+                                                  ? Colors.white
+                                                  : Colors.grey),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          days = 6;
+                                        });
+                                      }),
                                 ),
                                 Expanded(
                                   child: InkWell(
                                       child: Center(
-                                    child: Text(
-                                      'Sun',
-                                      style: TextStyle(
-                                          color: (days == 7)
-                                              ? Colors.white
-                                              : Colors.grey),
-                                    ),
-                                  )),
+                                        child: Text(
+                                          'Sun',
+                                          style: TextStyle(
+                                              color: (days == 7)
+                                                  ? Colors.white
+                                                  : Colors.grey),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        setState(() {
+                                          days = 7;
+                                          print(
+                                              'cqkjdbhvjhwbfvkjdsfbvjsdbfjvbkdjfnv: $days');
+                                        });
+                                      }),
                                 ),
                               ],
                             )
@@ -452,18 +490,23 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             (tasksOrBoards == 1)
                 ? StreamBuilder<List<Task_Model>>(
-                    stream: readTasks(),
+                    stream: readTasks(days),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        return Text('Something has wrong! ${snapshot.error}');
+                        print('Something has wrong! ${snapshot.error}');
+                        return SliverToBoxAdapter(
+                          child: Text('Something has wrong! ${snapshot.error}'),
+                        );
                       } else if (snapshot.hasData) {
                         final List<Task_Model> listTasks = snapshot.data!;
                         if (listTasks.isEmpty) {
-                          return const Center(
-                              child: Text(
-                            'No Tasks',
-                            style: TextStyle(color: Colors.white),
-                          ));
+                          return const SliverToBoxAdapter(
+                            child: Center(
+                                child: Text(
+                              'No Tasks for today',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                          );
                         } else {
                           return SliverAnimatedList(
                             itemBuilder: (_, index, ___) {
@@ -477,44 +520,52 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                         }
                       } else {
-                        return const Center(
-                          child: CircularProgressIndicator(
-                              color: Color(0xFFF1FF0A)),
+                        return SliverToBoxAdapter(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                                color: Colors.yellow[200]),
+                          ),
                         );
                       }
                     })
                 : StreamBuilder<List<Board_Model>>(
-                stream: readBoards(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Something has wrong! ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    final List<Board_Model> listBoards = snapshot.data!;
-                    if (listBoards.isEmpty) {
-                      return const Center(
-                          child: Text(
-                            'No Boards',
-                            style: TextStyle(color: Colors.white),
-                          ));
-                    } else {
-                      return SliverAnimatedList(
-                        itemBuilder: (_, index, ___) {
-                          return const Padding(
-                            padding: EdgeInsets.only(
-                                left: 20, right: 20, bottom: 10),
-                            child: Boards(),
+                    stream: readBoards(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return SliverToBoxAdapter(
+                          child: Text('Something has wrong! ${snapshot.error}'),
+                        );
+                      } else if (snapshot.hasData) {
+                        final List<Board_Model> listBoards = snapshot.data!;
+                        if (listBoards.isEmpty) {
+                          return const SliverToBoxAdapter(
+                            child: Center(
+                                child: Text(
+                              'No Boards for today',
+                              style: TextStyle(color: Colors.white),
+                            )),
                           );
-                        },
-                        initialItemCount: listBoards.length,
-                      );
-                    }
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                          color: Color(0xFFF1FF0A)),
-                    );
-                  }
-                })
+                        } else {
+                          return SliverAnimatedList(
+                            itemBuilder: (_, index, ___) {
+                              return const Padding(
+                                padding: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 10),
+                                child: Boards(),
+                              );
+                            },
+                            initialItemCount: listBoards.length,
+                          );
+                        }
+                      } else {
+                        return SliverToBoxAdapter(
+                          child: Center(
+                            child: CircularProgressIndicator(
+                                color: Colors.yellow[200]),
+                          ),
+                        );
+                      }
+                    })
           ],
         ),
       ),
@@ -556,13 +607,65 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  Stream<List<Task_Model>> readTasks() => FirebaseFirestore.instance
-      .collection('users')
-      .doc(currentUser.id)
-      .collection('tasks')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Task_Model.fromJson(doc.data())).toList());
+  Stream<List<Task_Model>> readTasks(int day) {
+    if (day == DateTime.now().weekday) {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.id)
+          .collection('tasks')
+          .where("date_pour_la_tache",
+              isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  0,
+                  0,
+                  0)))
+          .where("date_pour_la_tache",
+              isLessThan: Timestamp.fromDate(DateTime(DateTime.now().year,
+                      DateTime.now().month, DateTime.now().day)
+                  .add(Duration(days: 1))))
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => Task_Model.fromJson(doc.data()))
+              .toList());
+    } else if ((DateTime.now().weekday - day) > 0) {
+      DateTime pastDays =
+          DateTime.now().subtract(Duration(days: DateTime.now().weekday - day));
+      pastDays = DateTime(pastDays.year, pastDays.month, pastDays.day, 0, 0, 0);
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.id)
+          .collection('tasks')
+          .where("date_pour_la_tache",
+              isGreaterThanOrEqualTo: Timestamp.fromDate(pastDays))
+          .where("date_pour_la_tache",
+              isLessThan: Timestamp.fromDate(pastDays.add(Duration(days: 1))))
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => Task_Model.fromJson(doc.data()))
+              .toList());
+    } else {
+      print(
+          'on est dimancheon est dimancheon est dimancheon est dimancheon est dimancheon est dimanche');
+      DateTime futureDays =
+          DateTime.now().add(Duration(days: day - DateTime.now().weekday));
+      futureDays =
+          DateTime(futureDays.year, futureDays.month, futureDays.day, 0, 0, 0);
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.id)
+          .collection('tasks')
+          .where("date_pour_la_tache",
+              isGreaterThanOrEqualTo: Timestamp.fromDate(futureDays))
+          .where("date_pour_la_tache",
+              isLessThan: Timestamp.fromDate(futureDays.add(Duration(days: 1))))
+          .snapshots()
+          .map((snapshot) => snapshot.docs
+              .map((doc) => Task_Model.fromJson(doc.data()))
+              .toList());
+    }
+  }
 
   Stream<List<Board_Model>> readBoards() => FirebaseFirestore.instance
       .collection('users')

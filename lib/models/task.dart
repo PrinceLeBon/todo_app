@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Task_Model {
   late String id;
   late String id_board;
@@ -30,8 +32,8 @@ class Task_Model {
         'titre': titre,
         'description': description,
         'etat': etat,
-        'date_de_creation': date_de_creation,
-        'date_pour_la_tache': date_pour_la_tache,
+        'date_de_creation': Timestamp.fromDate(date_de_creation),
+        'date_pour_la_tache': Timestamp.fromDate(date_pour_la_tache),
         'heure_pour_la_tache': heure_pour_la_tache,
         //'idd': idd,
       };
@@ -43,8 +45,8 @@ class Task_Model {
         titre: json['titre'],
         description: json['description'],
         etat: json['etat'],
-        date_de_creation: json['date_de_creation'],
-        date_pour_la_tache: json['date_pour_la_tache'],
+        date_de_creation: json['date_de_creation'].toDate(),
+        date_pour_la_tache: json['date_pour_la_tache'].toDate(),
         heure_pour_la_tache: json['heure_pour_la_tache'],
      //   idd: json['idd'],
       );

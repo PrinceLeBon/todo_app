@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:color_parser/color_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/models/globals.dart';
-
 import '../models/boards.dart';
 import '../models/task.dart';
-import '../widgets/boards.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class AddTasksBoardsPage extends StatefulWidget {
   const AddTasksBoardsPage({Key? key}) : super(key: key);
@@ -28,14 +27,16 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
   TimeOfDay _time = TimeOfDay.now();
   String __time = '';
   int tasksOrBoards = 1;
+  Color pickerColor = Colors.blue;
+  Color currentColor = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: (tasksOrBoards == 1) ? global_yellow : Colors.blue[200],
+      backgroundColor: (tasksOrBoards == 1) ? global_yellow : global_blue,
       appBar: AppBar(
           backgroundColor:
-              (tasksOrBoards == 1) ? global_yellow : Colors.blue[200],
+              (tasksOrBoards == 1) ? global_yellow : global_blue,
           elevation: 0,
           leading: Padding(
             padding: const EdgeInsets.only(left: 10),
@@ -453,7 +454,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                     stream: readBoards(),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasError) {
-                                        print('Something has wrong! ${snapshot.error}');
+                                        print(
+                                            'Something has wrong! ${snapshot.error}');
                                         return Text(
                                             'Something has wrong! ${snapshot.error}');
                                       } else if (snapshot.hasData) {
@@ -498,7 +500,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                               Icons.arrow_downward,
                                               color: Colors.black,
                                             ),
-                                            items: listBoard.map((Board_Model b) {
+                                            items:
+                                                listBoard.map((Board_Model b) {
                                               return DropdownMenuItem<String>(
                                                 value: b.titre,
                                                 child: Text(b.titre),
@@ -581,11 +584,14 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                       description: myController2.text.trim(),
                                       etat: 'loading',
                                       date_de_creation: DateTime.now()
-                                          /*DateFormat('dd-MM-yyyy H:m:s')
-                                              .format(DateTime.now())*/,
-                                      date_pour_la_tache: _date/*
+                                      /*DateFormat('dd-MM-yyyy H:m:s')
+                                              .format(DateTime.now())*/
+                                      ,
+                                      date_pour_la_tache:
+                                          _date /*
                                           DateFormat('dd-MM-yyyy H:m:s')
-                                              .format(_date)*/,
+                                              .format(_date)*/
+                                      ,
                                       //idd: 0,
                                       heure_pour_la_tache:
                                           myController4.text.trim()));
@@ -648,23 +654,13 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                   height: 10,
                                 ),
                                 TextFormField(
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      color: Color.fromRGBO(5, 4, 43, 1)),
-                                  //readOnly: true,
-                                  controller: myController7,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
-                                    }
-                                    return null;
-                                  },
+                                  readOnly: true,
                                   decoration: InputDecoration(
                                       prefixIcon: IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(Icons.color_lens,
+                                          onPressed: () => pickColor(context),
+                                          icon: Icon(Icons.color_lens,
                                               color:
-                                                  Color.fromRGBO(5, 4, 43, 1))),
+                                                  pickerColor)),
                                       enabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromRGBO(5, 4, 43, 1)),
@@ -676,7 +672,12 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                             color: Color.fromRGBO(5, 4, 43, 1)),
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)),
-                                      )),
+                                      ),
+                                    hintText: pickerColor.toString(),
+                                    hintStyle: TextStyle(
+                                      color: pickerColor
+                                    )
+                                  ),
                                 )
                               ],
                             ),
@@ -706,7 +707,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                       id_user: 'id_user',
                                       titre: myController6.text.trim(),
                                       couleur: myController7.text.trim(),
-                                      idd: 0, listOfAssignee: [currentUser.id]));
+                                      idd: 0,
+                                      listOfAssignee: [currentUser.id]));
                                 }
                               },
                             )
@@ -736,9 +738,11 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
       myController4.text = '';
       myController5.text = '';
     });
-    await docTasks.set(json).onError((e, _) => print("Error writing Tasks document: $e"));
+    await docTasks
+        .set(json)
+        .onError((e, _) => print("Error writing Tasks document: $e"));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Ajout du board')),
+      const SnackBar(content: Text('Board added successfully')),
     );
   }
 
@@ -751,14 +755,16 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
     final QuerySnapshot _docBoards =
         await FirebaseFirestore.instance.collection('boards').get();
     board.id = docBoards.id;
-    board.couleur = 'Colors.blue[200]';
+    board.couleur = ColorParser.color(pickerColor).toHex();
     board.idd = _docBoards.docs.length;
     final json = board.toJson();
     setState(() {
       myController6.text = '';
       myController7.text = '';
     });
-    await docBoards.set(json).onError((e, _) => print("Error writing Boards document: $e"));
+    await docBoards
+        .set(json)
+        .onError((e, _) => print("Error writing Boards document: $e"));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Ajout du board')),
     );
@@ -770,6 +776,61 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
       .collection('boards')
       .orderBy("titre")
       .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Board_Model.fromJson(doc.data())).toList());
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Board_Model.fromJson(doc.data()))
+          .toList());
+
+  // ValueChanged<Color> callback
+  void changeColor(Color color) {
+    setState(() => pickerColor = color);
+    print(ColorParser.color(pickerColor).toHex() );
+  }
+
+  Future pickColor(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Pick a color!'),
+            content: SingleChildScrollView(
+              /*child: ColorPicker(
+                pickerColor: pickerColor,
+                onColorChanged: changeColor,
+              ),*/
+              // Use Material color picker:
+              //
+               /*child: MaterialPicker(
+                 pickerColor: pickerColor,
+                 onColorChanged: changeColor,
+                 //showLabel: true, // only on portrait mode
+               ),*/
+              //
+              // Use Block color picker:
+              //
+               child: BlockPicker(
+                 pickerColor: currentColor,
+                 onColorChanged: changeColor,
+               ),
+              //
+               /*child: MultipleChoiceBlockPicker(
+                 pickerColors: currentColors,
+                 onColorsChanged: changeColors,
+               ),*/
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: const Text('Got it'),
+                onPressed: () {
+                  setState(() => currentColor = pickerColor);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Color hexToColor(String code) {
+    return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  }
 }

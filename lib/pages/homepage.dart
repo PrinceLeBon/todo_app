@@ -548,10 +548,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         } else {
                           return SliverAnimatedList(
                             itemBuilder: (_, index, ___) {
-                              return const Padding(
+                              print('ksdvnkjsvnksfnv');
+                              print(listBoards[index].listOfAssignee.first);
+                              return Padding(
                                 padding: EdgeInsets.only(
                                     left: 20, right: 20, bottom: 10),
-                                child: Boards(),
+                                child: Boards_Widget(boardName: listBoards[index].titre, user: listBoards[index].listOfAssignee.first, numberOfTask: 0, color: listBoards[index].couleur),
                               );
                             },
                             initialItemCount: listBoards.length,

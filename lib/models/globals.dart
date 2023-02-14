@@ -5,3 +5,4 @@ Users currentUser = Users(
     'id', 'nom', 'prenom', 'photo', 'date_de_naissance', 'username', 'email');
 
 Color? global_yellow = Colors.yellow[200];
+Color? global_blue = Colors.blue[200];

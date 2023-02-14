@@ -6,10 +6,10 @@ class List_Boards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Container() /*ListView.builder(
         itemCount: 5,
         itemBuilder: (context, index){
           return const Boards();
-        });
+        })*/;
   }
 }

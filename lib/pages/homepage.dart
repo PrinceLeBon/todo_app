@@ -24,6 +24,8 @@ class _MyHomePageState extends State<MyHomePage> {
   late final ScrollController? controller;
   int tasksOrBoards = 1;
   int days = 1;
+  int numberOfTasksToday = 0;
+  int numberOfBoards = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -31,6 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     getProfilePicture();
+    /*getNumberOfTaskToday();
+    getNumberOfBoard();*/
   }
 
   @override
@@ -138,10 +142,19 @@ class _MyHomePageState extends State<MyHomePage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  const Text(
-                                    '75% done',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
+                                  FutureBuilder(
+                                    future: getNumberOfTaskDone(),
+                                      builder: (context, snapshot){
+                                    if (snapshot.hasData){
+                                      final int number = snapshot.data!;
+                                      return Text(
+                                        '$number% done',
+                                        style: TextStyle(color: Colors.white),
+                                      );
+                                    } else {
+                                      return const Text('');
+                                    }
+                                  }),
                                   Container(
                                     height: 5,
                                   ),
@@ -192,7 +205,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 padding: EdgeInsets.only(
                                     top: 5, bottom: 5, left: 10, right: 10),
                                 child: Text(
-                                  '12',
+                                  numberOfTasksToday.toString(),
                                   style: TextStyle(
                                       color: (tasksOrBoards == 1)
                                           ? Color.fromRGBO(5, 4, 43, 1)
@@ -247,7 +260,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 padding: EdgeInsets.only(
                                     top: 5, bottom: 5, left: 10, right: 10),
                                 child: Text(
-                                  '3',
+                                  numberOfBoards.toString(),
                                   style: TextStyle(
                                       color: (tasksOrBoards == 1)
                                           ? Colors.white
@@ -475,8 +488,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                       onTap: () {
                                         setState(() {
                                           days = 7;
-                                          print(
-                                              'cqkjdbhvjhwbfvkjdsfbvjsdbfjvbkdjfnv: $days');
                                         });
                                       }),
                                 ),
@@ -548,13 +559,30 @@ class _MyHomePageState extends State<MyHomePage> {
                         } else {
                           return SliverAnimatedList(
                             itemBuilder: (_, index, ___) {
-                              print('ksdvnkjsvnksfnv');
-                              print(listBoards[index].listOfAssignee.first);
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                    left: 20, right: 20, bottom: 10),
-                                child: Boards_Widget(boardName: listBoards[index].titre, user: listBoards[index].listOfAssignee.first, numberOfTask: 0, color: listBoards[index].couleur),
-                              );
+                              return FutureBuilder(
+                                  future: getNumberOfTaskInOneBoard(
+                                      listBoards[index].titre),
+                                  builder: (context, snapshotss) {
+                                    if (snapshotss.hasData) {
+                                      final int numberOfTasks =
+                                          snapshotss.data!;
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 20, right: 20, bottom: 10),
+                                        child: Boards_Widget(
+                                            boardName: listBoards[index].titre,
+                                            listUsers: listBoards[index]
+                                                .listOfAssignee,
+                                            numberOfTask: numberOfTasks,
+                                            color: listBoards[index].couleur),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                            color: Colors.yellow[200]),
+                                      );
+                                    }
+                                  });
                             },
                             initialItemCount: listBoards.length,
                           );
@@ -590,7 +618,6 @@ class _MyHomePageState extends State<MyHomePage> {
     QuerySnapshot querySnapshot =
         await userCollection.where("id", isEqualTo: userId).limit(1).get();
     if (querySnapshot.docs.isNotEmpty) {
-      print('username trouvé');
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> userFound = doc.data() as Map<String, dynamic>;
         setState(() {
@@ -606,6 +633,70 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     } else {
       print('username non trouvé');
+    }
+  }
+
+  Future<int> getNumberOfTaskInOneBoard(String nameOfThisBoard) async {
+    int number = 0;
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUser.id)
+        .collection("tasks")
+        .where("id_board", isEqualTo: nameOfThisBoard)
+        .where("etat", isEqualTo: "loading")
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      number = querySnapshot.size;
+      return number;
+    } else {
+      print('nombre de tasks non trouvé');
+      return number;
+    }
+  }
+
+  Future<int> getNumberOfTaskDone() async {
+    int number = 0;
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUser.id)
+        .collection("tasks")
+        .where("date_pour_la_tache",
+            isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
+                DateTime.now().year,
+                DateTime.now().month,
+                DateTime.now().day,
+                0,
+                0,
+                0)))
+        .where("date_pour_la_tache",
+            isLessThan: Timestamp.fromDate(DateTime(DateTime.now().year,
+                    DateTime.now().month, DateTime.now().day)
+                .add(Duration(days: 1))))
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser.id)
+          .collection("tasks")
+          .where("date_pour_la_tache",
+              isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
+                  DateTime.now().year,
+                  DateTime.now().month,
+                  DateTime.now().day,
+                  0,
+                  0,
+                  0)))
+          .where("date_pour_la_tache",
+              isLessThan: Timestamp.fromDate(DateTime(DateTime.now().year,
+                      DateTime.now().month, DateTime.now().day)
+                  .add(Duration(days: 1))))
+          .where("etat", isEqualTo: "done")
+          .get();
+      number = ((querySnapshot2.size * 100) /querySnapshot.size) as int;
+      return number;
+    } else {
+      print('nombre de tasks non trouvé');
+      return number;
     }
   }
 
@@ -628,9 +719,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       DateTime.now().month, DateTime.now().day)
                   .add(Duration(days: 1))))
           .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((doc) => Task_Model.fromJson(doc.data()))
-              .toList());
+          .map((snapshot) {
+        setState(() {
+          numberOfTasksToday = snapshot.docs.length;
+        });
+        return snapshot.docs
+            .map((doc) => Task_Model.fromJson(doc.data()))
+            .toList();
+      });
     } else if ((DateTime.now().weekday - day) > 0) {
       DateTime pastDays =
           DateTime.now().subtract(Duration(days: DateTime.now().weekday - day));
@@ -644,12 +740,15 @@ class _MyHomePageState extends State<MyHomePage> {
           .where("date_pour_la_tache",
               isLessThan: Timestamp.fromDate(pastDays.add(Duration(days: 1))))
           .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((doc) => Task_Model.fromJson(doc.data()))
-              .toList());
+          .map((snapshot) {
+        setState(() {
+          numberOfTasksToday = snapshot.docs.length;
+        });
+        return snapshot.docs
+            .map((doc) => Task_Model.fromJson(doc.data()))
+            .toList();
+      });
     } else {
-      print(
-          'on est dimancheon est dimancheon est dimancheon est dimancheon est dimancheon est dimanche');
       DateTime futureDays =
           DateTime.now().add(Duration(days: day - DateTime.now().weekday));
       futureDays =
@@ -663,19 +762,29 @@ class _MyHomePageState extends State<MyHomePage> {
           .where("date_pour_la_tache",
               isLessThan: Timestamp.fromDate(futureDays.add(Duration(days: 1))))
           .snapshots()
-          .map((snapshot) => snapshot.docs
-              .map((doc) => Task_Model.fromJson(doc.data()))
-              .toList());
+          .map((snapshot) {
+        setState(() {
+          numberOfTasksToday = snapshot.docs.length;
+        });
+        return snapshot.docs
+            .map((doc) => Task_Model.fromJson(doc.data()))
+            .toList();
+      });
     }
   }
 
   Stream<List<Board_Model>> readBoards() => FirebaseFirestore.instance
-      .collection('users')
-      .doc(currentUser.id)
-      .collection('boards')
-      .orderBy("titre")
-      .snapshots()
-      .map((snapshot) => snapshot.docs
-          .map((doc) => Board_Model.fromJson(doc.data()))
-          .toList());
+          .collection('users')
+          .doc(currentUser.id)
+          .collection('boards')
+          .orderBy("titre")
+          .snapshots()
+          .map((snapshot) {
+        setState(() {
+          numberOfBoards = snapshot.docs.length;
+        });
+        return snapshot.docs
+            .map((doc) => Board_Model.fromJson(doc.data()))
+            .toList();
+      });
 }

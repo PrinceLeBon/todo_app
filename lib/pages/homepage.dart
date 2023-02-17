@@ -33,8 +33,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     getProfilePicture();
-    /*getNumberOfTaskToday();
-    getNumberOfBoard();*/
   }
 
   @override
@@ -523,7 +521,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           return SliverAnimatedList(
                             itemBuilder: (_, index, ___) {
                               return Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     left: 20, right: 20, bottom: 10),
                                 child: Task_Widget(
                                     id: listTasks[index].id,
@@ -580,7 +578,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       final int numberOfTasks =
                                           snapshotss.data!;
                                       return Padding(
-                                        padding: EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                             left: 20, right: 20, bottom: 10),
                                         child: Boards_Widget(
                                             boardName: listBoards[index].titre,
@@ -625,9 +623,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getProfilePicture() async {
-    //final String userId = (FirebaseAuth.instance.currentUser?.uid)!;
-    /*CollectionReference userCollection =
-        FirebaseFirestore.instance.collection("users");*/
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("users")
         .where("id", isEqualTo: FirebaseAuth.instance.currentUser?.uid)

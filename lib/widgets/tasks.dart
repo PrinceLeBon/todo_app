@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/models/globals.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
 
@@ -36,12 +37,15 @@ class Task_Widget extends StatefulWidget {
 class _Task_WidgetState extends State<Task_Widget> {
   List<String> listPhotos = [''];
   String boardName = '';
+  String userName = '';
+  String userPicture = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getProfilesPictures();
+    getBoardInformation();
+    getCreatorOfThisTaskInformation(widget.id_user);
   }
 
   @override
@@ -58,11 +62,86 @@ class _Task_WidgetState extends State<Task_Widget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Profile_Picture(taille: 50, image: currentUser.photo),
+                  (listPhotos.isNotEmpty)
+                      ? SizedBox(
+                          width: (listPhotos.length == 1)
+                              ? 60
+                              : (listPhotos.length == 2)
+                                  ? 90
+                                  : (listPhotos.length == 3)
+                                      ? 120
+                                      : (listPhotos.length == 4)
+                                          ? 150
+                                          : 180,
+                          height: 50,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                child: Profile_Picture(
+                                  taille: 50,
+                                  image: listPhotos[0],
+                                ),
+                              ),
+                              (listPhotos.length >= 2)
+                                  ? Positioned(
+                                      left: 30,
+                                      bottom: 0,
+                                      child: Profile_Picture(
+                                        taille: 50,
+                                        image: listPhotos[1],
+                                      ),
+                                    )
+                                  : Container(),
+                              (listPhotos.length >= 3)
+                                  ? Positioned(
+                                      left: 60,
+                                      bottom: 0,
+                                      child: Profile_Picture(
+                                        taille: 50,
+                                        image: listPhotos[2],
+                                      ),
+                                    )
+                                  : Container(),
+                              (listPhotos.length >= 4)
+                                  ? Positioned(
+                                      left: 90,
+                                      bottom: 0,
+                                      child: Profile_Picture(
+                                        taille: 50,
+                                        image: listPhotos[3],
+                                      ),
+                                    )
+                                  : Container(),
+                              (listPhotos.length >= 5)
+                                  ? Positioned(
+                                      left: 120,
+                                      bottom: 0,
+                                      child: Container(
+                                        width: 50,
+                                        height: 50,
+                                        decoration: BoxDecoration(
+                                            color: Color.fromRGBO(5, 4, 43, 1),
+                                            shape: BoxShape.circle),
+                                        child: Center(
+                                          child: Text(
+                                            '+${listPhotos.length - 4}',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                        )
+                      : Container(),
                   Row(
                     children: [
                       Text(
-                        '14h30',
+                        getTimeOfTasks(widget.heure_pour_la_tache),
                         style: TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
                       ),
                       Container(
@@ -89,16 +168,16 @@ class _Task_WidgetState extends State<Task_Widget> {
               Container(
                 height: 10,
               ),
-              const Text(
-                'Myself',
+              Text(
+                boardName,
                 style: TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
               ),
               Container(
                 height: 10,
               ),
-              const Text(
-                'Go to library',
-                style: TextStyle(
+              Text(
+                widget.titre,
+                style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Color.fromRGBO(5, 4, 43, 1)),
@@ -111,31 +190,96 @@ class _Task_WidgetState extends State<Task_Widget> {
         ),
       ),
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const View_Tasks()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => View_Tasks(
+                id: widget.id,
+                boardName: boardName,
+                listPhotos: listPhotos,
+                userName: userName,
+                userPicture: userPicture,
+                titre: widget.titre,
+                description: widget.description,
+                etat: widget.etat,
+                date_de_creation: widget.date_de_creation,
+                date_pour_la_tache: widget.date_pour_la_tache,
+                heure_pour_la_tache:
+                    getTimeOfTasks(widget.heure_pour_la_tache))));
       },
     );
   }
 
-  Future<void> getProfilesPictures() async {
+  Future<void> getBoardInformation() async {
     listPhotos.clear();
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("users")
         .doc(currentUser.id)
         .collection("boards")
-        .where("id", isEqualTo: widget.id_board)
+        .where("titre", isEqualTo: widget.id_board)
         .limit(1)
         .get();
     if (querySnapshot.docs.isNotEmpty) {
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> boardFound = doc.data() as Map<String, dynamic>;
         setState(() {
-          listPhotos =  List<String>.from(boardFound["listOfAssignee"]);
+          getProfilesPictures(List<String>.from(boardFound["listOfAssignee"]));
           boardName = boardFound["titre"];
         });
       }
     } else {
       print('board not found');
+    }
+  }
+
+  Future<void> getProfilesPictures(List<String> l) async {
+    listPhotos.clear();
+    CollectionReference userCollection =
+        FirebaseFirestore.instance.collection("users");
+    for (var user in l) {
+      QuerySnapshot querySnapshot =
+          await userCollection.where("id", isEqualTo: user).limit(1).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var doc in querySnapshot.docs) {
+          Map<String, dynamic> userFound = doc.data() as Map<String, dynamic>;
+          setState(() {
+            listPhotos.add(userFound['photo']);
+          });
+        }
+      } else {
+        print('username non trouvé');
+      }
+    }
+  }
+
+  String getTimeOfTasks(String time) {
+    List<String> heureParts = time.split(':');
+    TimeOfDay heure = TimeOfDay(
+        hour: int.parse(heureParts[0]), minute: int.parse(heureParts[1]));
+
+    return (DateFormat.Hm().format(DateTime(
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
+            heure.hour,
+            heure.minute)))
+        .replaceAll(":", "h");
+  }
+
+  Future<void> getCreatorOfThisTaskInformation(String id_creator) async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: id_creator)
+        .limit(1)
+        .get();
+    if (querySnapshot.docs.isNotEmpty) {
+      for (var doc in querySnapshot.docs) {
+        Map<String, dynamic> userFound = doc.data() as Map<String, dynamic>;
+        setState(() {
+          userName = userFound['username'];
+          userPicture = userFound['photo'];
+        });
+      }
+    } else {
+      print('Creator Of This TaskInformation not found');
     }
   }
 }

@@ -147,20 +147,23 @@ class _Task_WidgetState extends State<Task_Widget> {
                       Container(
                         width: 10,
                       ),
-                      Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.blueGrey, shape: BoxShape.circle),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.done),
-                          color: Color.fromRGBO(
-                            5,
-                            4,
-                            43,
-                            1,
-                          ),
-                        ),
-                      )
+                      (widget.etat == "loading")
+                          ? Container(
+                              decoration: const BoxDecoration(
+                                  color: Colors.blueGrey,
+                                  shape: BoxShape.circle),
+                              child: IconButton(
+                                onPressed: setAsDone,
+                                icon: Icon(Icons.done),
+                                color: Color.fromRGBO(
+                                  5,
+                                  4,
+                                  43,
+                                  1,
+                                ),
+                              ),
+                            )
+                          : Container()
                     ],
                   )
                 ],
@@ -175,12 +178,35 @@ class _Task_WidgetState extends State<Task_Widget> {
               Container(
                 height: 10,
               ),
-              Text(
-                widget.titre,
-                style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(5, 4, 43, 1)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.titre,
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(5, 4, 43, 1)),
+                  ),
+                  (widget.etat == "done")
+                      ? Row(
+                          children: [
+                            Text('Done'),
+                            Container(width: 5),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(5, 4, 43, 1),
+                                  shape: BoxShape.circle),
+                              child: Icon(
+                                Icons.done,
+                                color: Colors.white,
+                                size: 15,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container()
+                ],
               ),
               Container(
                 height: 10,
@@ -281,5 +307,18 @@ class _Task_WidgetState extends State<Task_Widget> {
     } else {
       print('Creator Of This TaskInformation not found');
     }
+  }
+
+  void setAsDone() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.id)
+        .collection('tasks')
+        .doc(widget.id)
+        .update({'etat': 'done'}).onError((error, stackTrace) => print(
+            'Error updating state of this tasks Boards document: $error'));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Set As Done')),
+    );
   }
 }

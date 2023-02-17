@@ -6,10 +6,10 @@ class List_Tasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return Container() /*ListView.builder(
       itemCount: 20,
         itemBuilder: (context, index){
       return const Tasks();
-    });
+    })*/;
   }
 }

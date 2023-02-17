@@ -54,7 +54,8 @@ class _Boards_WidgetState extends State<Boards_Widget> {
                         shape: BoxShape.circle,
                       ),
                       child:
-                          IconButton(onPressed: () {}, icon: const Icon(Icons.add, color: Color.fromRGBO(5, 4, 43, 1),)),
+                          IconButton(onPressed: () {}, icon: const Icon(
+                            Icons.add, color: Color.fromRGBO(5, 4, 43, 1),)),
                     ),
                     (listPhotos.isNotEmpty) ? SizedBox(
                       width: (listPhotos.length == 1)

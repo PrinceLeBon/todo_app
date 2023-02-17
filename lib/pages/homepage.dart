@@ -143,18 +143,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   FutureBuilder(
-                                    future: getNumberOfTaskDone(),
-                                      builder: (context, snapshot){
-                                    if (snapshot.hasData){
-                                      final int number = snapshot.data!;
-                                      return Text(
-                                        '$number% done',
-                                        style: TextStyle(color: Colors.white),
-                                      );
-                                    } else {
-                                      return const Text('');
-                                    }
-                                  }),
+                                      future: getNumberOfTaskDone(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          final int number = snapshot.data!;
+                                          return Text(
+                                            '$number% done',
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          );
+                                        } else {
+                                          return const Text('');
+                                        }
+                                      }),
                                   Container(
                                     height: 5,
                                   ),
@@ -521,10 +522,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         } else {
                           return SliverAnimatedList(
                             itemBuilder: (_, index, ___) {
-                              return const Padding(
+                              return Padding(
                                 padding: EdgeInsets.only(
                                     left: 20, right: 20, bottom: 10),
-                                child: Tasks(),
+                                child: Task_Widget(
+                                    id: listTasks[index].id,
+                                    id_board: listTasks[index].id_board,
+                                    id_user: listTasks[index].id_user,
+                                    titre: listTasks[index].titre,
+                                    description: listTasks[index].description,
+                                    etat: listTasks[index].etat,
+                                    date_de_creation:
+                                        listTasks[index].date_de_creation,
+                                    date_pour_la_tache:
+                                        listTasks[index].date_pour_la_tache,
+                                    heure_pour_la_tache:
+                                        listTasks[index].heure_pour_la_tache),
                               );
                             },
                             initialItemCount: listTasks.length,
@@ -612,11 +625,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getProfilePicture() async {
-    final String userId = (FirebaseAuth.instance.currentUser?.uid)!;
-    CollectionReference userCollection =
-        FirebaseFirestore.instance.collection("users");
-    QuerySnapshot querySnapshot =
-        await userCollection.where("id", isEqualTo: userId).limit(1).get();
+    //final String userId = (FirebaseAuth.instance.currentUser?.uid)!;
+    /*CollectionReference userCollection =
+        FirebaseFirestore.instance.collection("users");*/
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("id", isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+        .limit(1)
+        .get();
     if (querySnapshot.docs.isNotEmpty) {
       for (var doc in querySnapshot.docs) {
         Map<String, dynamic> userFound = doc.data() as Map<String, dynamic>;
@@ -632,7 +648,7 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       }
     } else {
-      print('username non trouvé');
+      print('Current user not found');
     }
   }
 
@@ -655,136 +671,111 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<int> getNumberOfTaskDone() async {
-    int number = 0;
+    Timestamp dateOfToday = Timestamp.fromDate(DateTime(DateTime.now().year,
+        DateTime.now().month, DateTime.now().day, 0, 0, 0));
+
+    Timestamp dateOfTodayLimit = Timestamp.fromDate(
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+            .add(const Duration(days: 1)));
+
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("users")
         .doc(currentUser.id)
         .collection("tasks")
-        .where("date_pour_la_tache",
-            isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
-                DateTime.now().year,
-                DateTime.now().month,
-                DateTime.now().day,
-                0,
-                0,
-                0)))
-        .where("date_pour_la_tache",
-            isLessThan: Timestamp.fromDate(DateTime(DateTime.now().year,
-                    DateTime.now().month, DateTime.now().day)
-                .add(Duration(days: 1))))
+        .where("date_pour_la_tache", isGreaterThanOrEqualTo: dateOfToday)
+        .where("date_pour_la_tache", isLessThan: dateOfTodayLimit)
         .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(currentUser.id)
-          .collection("tasks")
-          .where("date_pour_la_tache",
-              isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day,
-                  0,
-                  0,
-                  0)))
-          .where("date_pour_la_tache",
-              isLessThan: Timestamp.fromDate(DateTime(DateTime.now().year,
-                      DateTime.now().month, DateTime.now().day)
-                  .add(Duration(days: 1))))
-          .where("etat", isEqualTo: "done")
-          .get();
-      number = ((querySnapshot2.size * 100) /querySnapshot.size) as int;
-      return number;
-    } else {
-      print('nombre de tasks non trouvé');
-      return number;
-    }
+    int totalTasks = querySnapshot.size;
+    int completedTasks =
+        querySnapshot.docs.where((doc) => doc["etat"] == "done").length;
+
+    return (totalTasks == 0) ? 0 : (completedTasks * 100 ~/ totalTasks);
   }
 
   Stream<List<Task_Model>> readTasks(int day) {
-    if (day == DateTime.now().weekday) {
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser.id)
-          .collection('tasks')
-          .where("date_pour_la_tache",
-              isGreaterThanOrEqualTo: Timestamp.fromDate(DateTime(
-                  DateTime.now().year,
-                  DateTime.now().month,
-                  DateTime.now().day,
-                  0,
-                  0,
-                  0)))
-          .where("date_pour_la_tache",
-              isLessThan: Timestamp.fromDate(DateTime(DateTime.now().year,
-                      DateTime.now().month, DateTime.now().day)
-                  .add(Duration(days: 1))))
-          .snapshots()
-          .map((snapshot) {
-        setState(() {
-          numberOfTasksToday = snapshot.docs.length;
-        });
-        return snapshot.docs
-            .map((doc) => Task_Model.fromJson(doc.data()))
-            .toList();
+    int initialNumberOfTasks = 0;
+
+    DateTime dateOfToday = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 0);
+
+    Timestamp dateOfTargetDay = Timestamp.fromDate(
+        dateOfToday.add(Duration(days: day - dateOfToday.weekday)));
+
+    Timestamp dateOfTargetDayLimit = Timestamp.fromDate(dateOfToday
+        .add(Duration(days: day - dateOfToday.weekday))
+        .add(const Duration(days: 1)));
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.id)
+        .collection('tasks')
+        .where("date_pour_la_tache", isGreaterThanOrEqualTo: dateOfTargetDay)
+        .where("date_pour_la_tache", isLessThan: dateOfTargetDayLimit)
+        .snapshots()
+        .map((snapshot) {
+      final changes = snapshot.docChanges;
+      final List<Task_Model> tasks = [];
+      changes.forEach((change) {
+        if (change.type == DocumentChangeType.added) {
+          // Ajouter un nouveau Board_Model si un document est ajouté
+          tasks.add(Task_Model.fromJson(change.doc.data()!));
+        } else if (change.type == DocumentChangeType.modified) {
+          // Modifier le Board_Model correspondant si un document est modifié
+          int index = tasks.indexWhere((board) => board.id == change.doc.id);
+          if (index != -1) {
+            tasks[index] = Task_Model.fromJson(change.doc.data()!);
+          }
+        } else if (change.type == DocumentChangeType.removed) {
+          // Supprimer le Board_Model correspondant si un document est supprimé
+          tasks.removeWhere((board) => board.id == change.doc.id);
+        }
       });
-    } else if ((DateTime.now().weekday - day) > 0) {
-      DateTime pastDays =
-          DateTime.now().subtract(Duration(days: DateTime.now().weekday - day));
-      pastDays = DateTime(pastDays.year, pastDays.month, pastDays.day, 0, 0, 0);
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser.id)
-          .collection('tasks')
-          .where("date_pour_la_tache",
-              isGreaterThanOrEqualTo: Timestamp.fromDate(pastDays))
-          .where("date_pour_la_tache",
-              isLessThan: Timestamp.fromDate(pastDays.add(Duration(days: 1))))
-          .snapshots()
-          .map((snapshot) {
-        setState(() {
-          numberOfTasksToday = snapshot.docs.length;
-        });
-        return snapshot.docs
-            .map((doc) => Task_Model.fromJson(doc.data()))
-            .toList();
+      // Mettre à jour le nombre de boards
+      setState(() {
+        numberOfTasksToday = initialNumberOfTasks + tasks.length;
       });
-    } else {
-      DateTime futureDays =
-          DateTime.now().add(Duration(days: day - DateTime.now().weekday));
-      futureDays =
-          DateTime(futureDays.year, futureDays.month, futureDays.day, 0, 0, 0);
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser.id)
-          .collection('tasks')
-          .where("date_pour_la_tache",
-              isGreaterThanOrEqualTo: Timestamp.fromDate(futureDays))
-          .where("date_pour_la_tache",
-              isLessThan: Timestamp.fromDate(futureDays.add(Duration(days: 1))))
-          .snapshots()
-          .map((snapshot) {
-        setState(() {
-          numberOfTasksToday = snapshot.docs.length;
-        });
-        return snapshot.docs
-            .map((doc) => Task_Model.fromJson(doc.data()))
-            .toList();
-      });
-    }
+
+      // Retourner la liste mise à jour de Board_Model
+      return tasks;
+    });
   }
 
-  Stream<List<Board_Model>> readBoards() => FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser.id)
-          .collection('boards')
-          .orderBy("titre")
-          .snapshots()
-          .map((snapshot) {
-        setState(() {
-          numberOfBoards = snapshot.docs.length;
-        });
-        return snapshot.docs
-            .map((doc) => Board_Model.fromJson(doc.data()))
-            .toList();
+  Stream<List<Board_Model>> readBoards() {
+    int initialNumberOfBoards = 0;
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.id)
+        .collection('boards')
+        .orderBy("titre")
+        .snapshots()
+        .map((snapshot) {
+      // Utiliser la fonction docChanges pour ne récupérer que les données modifiées
+      final changes = snapshot.docChanges;
+      final List<Board_Model> boards = [];
+
+      changes.forEach((change) {
+        if (change.type == DocumentChangeType.added) {
+          // Ajouter un nouveau Board_Model si un document est ajouté
+          boards.add(Board_Model.fromJson(change.doc.data()!));
+        } else if (change.type == DocumentChangeType.modified) {
+          // Modifier le Board_Model correspondant si un document est modifié
+          int index = boards.indexWhere((board) => board.id == change.doc.id);
+          if (index != -1) {
+            boards[index] = Board_Model.fromJson(change.doc.data()!);
+          }
+        } else if (change.type == DocumentChangeType.removed) {
+          // Supprimer le Board_Model correspondant si un document est supprimé
+          boards.removeWhere((board) => board.id == change.doc.id);
+        }
       });
+
+      // Mettre à jour le nombre de boards
+      setState(() {
+        numberOfBoards = initialNumberOfBoards + boards.length;
+      });
+
+      // Retourner la liste mise à jour de Board_Model
+      return boards;
+    });
+  }
 }

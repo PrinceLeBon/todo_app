@@ -31,6 +31,19 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
   Color currentColor = Colors.blue;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    myController1.dispose();
+    myController2.dispose();
+    myController3.dispose();
+    myController4.dispose();
+    myController5.dispose();
+    myController6.dispose();
+    myController7.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: (tasksOrBoards == 1) ? global_yellow : global_blue,

@@ -585,7 +585,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                             listUsers: listBoards[index]
                                                 .listOfAssignee,
                                             numberOfTask: numberOfTasks,
-                                            color: listBoards[index].couleur),
+                                            color: listBoards[index].couleur, idBoard: listBoards[index].id,),
                                       );
                                     } else {
                                       return Center(
@@ -660,7 +660,6 @@ class _MyHomePageState extends State<MyHomePage> {
       number = querySnapshot.size;
       return number;
     } else {
-      print('nombre de tasks non trouvé');
       return number;
     }
   }
@@ -704,8 +703,8 @@ class _MyHomePageState extends State<MyHomePage> {
         .collection('users')
         .doc(currentUser.id)
         .collection('tasks')
-        .where("date_pour_la_tache", isGreaterThanOrEqualTo: dateOfTargetDay)
-        .where("date_pour_la_tache", isLessThan: dateOfTargetDayLimit)
+        .where('date_pour_la_tache', isGreaterThanOrEqualTo: dateOfTargetDay)
+        .where('date_pour_la_tache', isLessThan: dateOfTargetDayLimit)
         .snapshots()
         .map((snapshot) {
       final changes = snapshot.docChanges;
@@ -763,12 +762,10 @@ class _MyHomePageState extends State<MyHomePage> {
           boards.removeWhere((board) => board.id == change.doc.id);
         }
       });
-
       // Mettre à jour le nombre de boards
       setState(() {
         numberOfBoards = initialNumberOfBoards + boards.length;
       });
-
       // Retourner la liste mise à jour de Board_Model
       return boards;
     });

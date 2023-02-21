@@ -55,7 +55,7 @@ class _Task_WidgetState extends State<Task_Widget> {
         decoration: BoxDecoration(
             color: global_yellow, borderRadius: BorderRadius.circular(30)),
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -121,14 +121,14 @@ class _Task_WidgetState extends State<Task_Widget> {
                                       child: Container(
                                         width: 50,
                                         height: 50,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                             color: Color.fromRGBO(5, 4, 43, 1),
                                             shape: BoxShape.circle),
                                         child: Center(
                                           child: Text(
                                             '+${listPhotos.length - 4}',
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                            style: const TextStyle(
+                                                color: Colors.white),
                                           ),
                                         ),
                                       ),
@@ -142,7 +142,8 @@ class _Task_WidgetState extends State<Task_Widget> {
                     children: [
                       Text(
                         getTimeOfTasks(widget.heure_pour_la_tache),
-                        style: TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
+                        style:
+                            const TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
                       ),
                       Container(
                         width: 10,
@@ -154,8 +155,8 @@ class _Task_WidgetState extends State<Task_Widget> {
                                   shape: BoxShape.circle),
                               child: IconButton(
                                 onPressed: setAsDone,
-                                icon: Icon(Icons.done),
-                                color: Color.fromRGBO(
+                                icon: const Icon(Icons.done),
+                                color: const Color.fromRGBO(
                                   5,
                                   4,
                                   43,
@@ -173,7 +174,7 @@ class _Task_WidgetState extends State<Task_Widget> {
               ),
               Text(
                 boardName,
-                style: TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
+                style: const TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
               ),
               Container(
                 height: 10,
@@ -191,13 +192,13 @@ class _Task_WidgetState extends State<Task_Widget> {
                   (widget.etat == "done")
                       ? Row(
                           children: [
-                            Text('Done'),
+                            const Text('Done'),
                             Container(width: 5),
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: Color.fromRGBO(5, 4, 43, 1),
                                   shape: BoxShape.circle),
-                              child: Icon(
+                              child: const Icon(
                                 Icons.done,
                                 color: Colors.white,
                                 size: 15,

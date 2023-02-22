@@ -668,7 +668,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                 ),
                                 TextFormField(
                                   readOnly: true,
-                                  controller: myController7,
+                                  //controller: myController7,
                                   decoration: InputDecoration(
                                       prefixIcon: IconButton(
                                           onPressed: () => pickColor(context),

@@ -212,9 +212,9 @@ class _Boards_WidgetState extends State<Boards_Widget> {
             .doc(currentUser.id)
             .collection('boards')
             .doc(widget.idBoard)
-            .set({
+            .update({
           "listOfAssignee": FieldValue.arrayUnion(newId)
-        }, SetOptions(merge: true)).then(
+        }).then(
                 (value) => ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Successfully added user')),
                     ),

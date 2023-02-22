@@ -23,7 +23,7 @@ ToDo app with Firebase inspired by a design seen on dribble (https://dribbble.co
 10. See the number of boards.
 11. See the number of tasks of the day.
 12. See the evolution of the completion of the day's tasks through a percentage
-13. 
+
 ## Features
 
 - Account creation (Registration on the application with email + password)

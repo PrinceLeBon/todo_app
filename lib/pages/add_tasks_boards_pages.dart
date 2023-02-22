@@ -48,8 +48,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
     return Scaffold(
       backgroundColor: (tasksOrBoards == 1) ? global_yellow : global_blue,
       appBar: AppBar(
-          backgroundColor:
-              (tasksOrBoards == 1) ? global_yellow : global_blue,
+          backgroundColor: (tasksOrBoards == 1) ? global_yellow : global_blue,
           elevation: 0,
           leading: Padding(
             padding: const EdgeInsets.only(left: 10),
@@ -668,13 +667,12 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                 ),
                                 TextFormField(
                                   readOnly: true,
-                                  //controller: myController7,
+                                  controller: myController7,
                                   decoration: InputDecoration(
                                       prefixIcon: IconButton(
                                           onPressed: () => pickColor(context),
                                           icon: Icon(Icons.color_lens,
-                                              color:
-                                                  pickerColor)),
+                                              color: pickerColor)),
                                       enabledBorder: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromRGBO(5, 4, 43, 1)),
@@ -687,11 +685,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)),
                                       ),
-                                    hintText: pickerColor.toString(),
-                                    hintStyle: TextStyle(
-                                      color: pickerColor
-                                    )
-                                  ),
+                                      hintText: pickerColor.toString(),
+                                      hintStyle: TextStyle(color: pickerColor)),
                                 )
                               ],
                             ),
@@ -797,7 +792,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
   // ValueChanged<Color> callback
   void changeColor(Color color) {
     setState(() => pickerColor = color);
-    print(ColorParser.color(pickerColor).toHex() );
+    print(ColorParser.color(pickerColor).toHex());
   }
 
   Future pickColor(BuildContext context) {
@@ -813,7 +808,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
               ),*/
               // Use Material color picker:
               //
-               /*child: MaterialPicker(
+              /*child: MaterialPicker(
                  pickerColor: pickerColor,
                  onColorChanged: changeColor,
                  //showLabel: true, // only on portrait mode
@@ -821,12 +816,12 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
               //
               // Use Block color picker:
               //
-               child: BlockPicker(
-                 pickerColor: currentColor,
-                 onColorChanged: changeColor,
-               ),
+              child: BlockPicker(
+                pickerColor: currentColor,
+                onColorChanged: changeColor,
+              ),
               //
-               /*child: MultipleChoiceBlockPicker(
+              /*child: MultipleChoiceBlockPicker(
                  pickerColors: currentColors,
                  onColorsChanged: changeColors,
                ),*/

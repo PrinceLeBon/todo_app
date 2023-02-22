@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:todo_app/components/list_user_board.dart';
 import 'package:todo_app/models/globals.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
 
@@ -62,82 +63,7 @@ class _Task_WidgetState extends State<Task_Widget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  (listPhotos.isNotEmpty)
-                      ? SizedBox(
-                          width: (listPhotos.length == 1)
-                              ? 60
-                              : (listPhotos.length == 2)
-                                  ? 90
-                                  : (listPhotos.length == 3)
-                                      ? 120
-                                      : (listPhotos.length == 4)
-                                          ? 150
-                                          : 180,
-                          height: 50,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                child: Profile_Picture(
-                                  taille: 50,
-                                  image: listPhotos[0],
-                                ),
-                              ),
-                              (listPhotos.length >= 2)
-                                  ? Positioned(
-                                      left: 30,
-                                      bottom: 0,
-                                      child: Profile_Picture(
-                                        taille: 50,
-                                        image: listPhotos[1],
-                                      ),
-                                    )
-                                  : Container(),
-                              (listPhotos.length >= 3)
-                                  ? Positioned(
-                                      left: 60,
-                                      bottom: 0,
-                                      child: Profile_Picture(
-                                        taille: 50,
-                                        image: listPhotos[2],
-                                      ),
-                                    )
-                                  : Container(),
-                              (listPhotos.length >= 4)
-                                  ? Positioned(
-                                      left: 90,
-                                      bottom: 0,
-                                      child: Profile_Picture(
-                                        taille: 50,
-                                        image: listPhotos[3],
-                                      ),
-                                    )
-                                  : Container(),
-                              (listPhotos.length >= 5)
-                                  ? Positioned(
-                                      left: 120,
-                                      bottom: 0,
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: const BoxDecoration(
-                                            color: Color.fromRGBO(5, 4, 43, 1),
-                                            shape: BoxShape.circle),
-                                        child: Center(
-                                          child: Text(
-                                            '+${listPhotos.length - 4}',
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Container(),
-                            ],
-                          ),
-                        )
-                      : Container(),
+                  ListUserInABoard(listPhotos: listPhotos),
                   Row(
                     children: [
                       Text(

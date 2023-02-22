@@ -27,6 +27,12 @@ class _MyHomePageState extends State<MyHomePage> {
   int numberOfTasksToday = 0;
   int numberOfBoards = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  CollectionReference userRef = FirebaseFirestore.instance
+      .collection("users");
+  CollectionReference taskRef = FirebaseFirestore.instance
+      .collection("users")
+      .doc(currentUser.id)
+      .collection("tasks");
 
   @override
   void initState() {
@@ -623,8 +629,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getProfilePicture() async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection("users")
+    QuerySnapshot querySnapshot = await userRef /*FirebaseFirestore.instance
+        .collection("users")*/
         .where("id", isEqualTo: FirebaseAuth.instance.currentUser?.uid)
         .limit(1)
         .get();
@@ -649,10 +655,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<int> getNumberOfTaskInOneBoard(String nameOfThisBoard) async {
     int number = 0;
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    QuerySnapshot querySnapshot = await taskRef/*FirebaseFirestore.instance
         .collection("users")
         .doc(currentUser.id)
-        .collection("tasks")
+        .collection("tasks")*/
         .where("id_board", isEqualTo: nameOfThisBoard)
         .where("etat", isEqualTo: "loading")
         .get();
@@ -672,10 +678,10 @@ class _MyHomePageState extends State<MyHomePage> {
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
             .add(const Duration(days: 1)));
 
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    QuerySnapshot querySnapshot = await taskRef/*FirebaseFirestore.instance
         .collection("users")
         .doc(currentUser.id)
-        .collection("tasks")
+        .collection("tasks")*/
         .where("date_pour_la_tache", isGreaterThanOrEqualTo: dateOfToday)
         .where("date_pour_la_tache", isLessThan: dateOfTodayLimit)
         .get();
@@ -699,8 +705,8 @@ class _MyHomePageState extends State<MyHomePage> {
         .add(Duration(days: day - dateOfToday.weekday))
         .add(const Duration(days: 1)));
 
-    return FirebaseFirestore.instance
-        .collection('users')
+    return userRef /*FirebaseFirestore.instance
+        .collection("users")*/
         .doc(currentUser.id)
         .collection('tasks')
         .where('date_pour_la_tache', isGreaterThanOrEqualTo: dateOfTargetDay)
@@ -736,8 +742,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Stream<List<Board_Model>> readBoards() {
     int initialNumberOfBoards = 0;
-    return FirebaseFirestore.instance
-        .collection('users')
+    return userRef /*FirebaseFirestore.instance
+        .collection("users")*/
         .doc(currentUser.id)
         .collection('boards')
         .orderBy("titre")

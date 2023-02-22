@@ -41,6 +41,8 @@ class View_Tasks extends StatefulWidget {
 class _View_TasksState extends State<View_Tasks> {
   @override
   Widget build(BuildContext context) {
+    print("objectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobject");
+    print(widget.etat);
     return Scaffold(
       backgroundColor: global_yellow,
       appBar: AppBar(
@@ -284,9 +286,14 @@ class _View_TasksState extends State<View_Tasks> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
+      bottomNavigationBar: (widget.etat == 'done' ) ?  Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
-        child: ConfirmationSlider(
+        child:  ConfirmationSlider(
+          onConfirmation: (){},
+        ),
+      ) : Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+        child:  ConfirmationSlider(
           onConfirmation: setAsDone,
         ),
       ),

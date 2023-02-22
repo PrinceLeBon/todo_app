@@ -23,17 +23,18 @@ ToDo app with Firebase inspired by a design seen on dribble (https://dribbble.co
 10. See the number of boards.
 11. See the number of tasks of the day.
 12. See the evolution of the completion of the day's tasks through a percentage
-
+13. 
 ## Features
 
 - Account creation (Registration on the application with email + password)
 - Login to an account (email + password)
+  [Registration + Login](https://user-images.githubusercontent.com/102158487/220634780-3935ea99-c4f9-4de4-b316-aebff0f6c8b1.webm)
 - Creation of tasks
 - Add board for each task
 - Mark tasks as completed
 - View tasks
 - Display the percentage corresponding to the number of tasks of the day done
-- Delete tasks
+  [Features about tasks](https://user-images.githubusercontent.com/102158487/220636376-0ed4f499-39e8-422f-9cb3-ecba4fe41312.webm)
 - Creating boards
 - Set color for a board
 - Adding users to a board
@@ -41,6 +42,8 @@ ToDo app with Firebase inspired by a design seen on dribble (https://dribbble.co
 - Consult the users present in a board
 - View the number of boards
 - Consult the number of tasks of the day
+  [Features about Board](https://user-images.githubusercontent.com/102158487/220637587-90ccd7c0-a3f1-4205-88e0-5c3b944d79cc.webm)
+
 
 ## Known issues
 None for the moment

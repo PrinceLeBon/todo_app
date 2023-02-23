@@ -16,7 +16,6 @@ class _LoginState extends State<Login> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     myController1.dispose();
     myController2.dispose();
     super.dispose();
@@ -28,7 +27,7 @@ class _LoginState extends State<Login> {
       body: Container(
         margin: MediaQuery.of(context).padding,
         child: Padding(
-          padding: EdgeInsets.only(top: 50, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
           child: Form(
               key: _formKey,
               child: Column(
@@ -42,25 +41,27 @@ class _LoginState extends State<Login> {
                         height: 10,
                       ),
                       TextFormField(
-                        style: TextStyle(fontSize: 13, color: Colors.white),
+                        style:
+                            const TextStyle(fontSize: 13, color: Colors.white),
                         controller: myController1,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Please enter email';
                           }
                           return null;
                         },
                         decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.mail, color: Colors.yellow[500]),
+                            prefixIcon:
+                                Icon(Icons.mail, color: Colors.yellow[500]),
                             enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8)),
+                                  BorderRadius.all(Radius.circular(8)),
                             ),
                             focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8)),
+                                  BorderRadius.all(Radius.circular(8)),
                             )),
                       ),
                       Container(
@@ -72,27 +73,31 @@ class _LoginState extends State<Login> {
                         height: 10,
                       ),
                       TextFormField(
-                        style: TextStyle(fontSize: 13, color: Colors.white),
+                        style:
+                            const TextStyle(fontSize: 13, color: Colors.white),
                         obscureText: true,
                         obscuringCharacter: '*',
                         controller: myController2,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Please enter password';
                           }
                           return null;
                         },
                         decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.password, color: Colors.yellow[500],),
+                            prefixIcon: Icon(
+                              Icons.password,
+                              color: Colors.yellow[500],
+                            ),
                             enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8)),
+                                  BorderRadius.all(Radius.circular(8)),
                             ),
                             focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8)),
+                                  BorderRadius.all(Radius.circular(8)),
                             )),
                       ),
                       Container(
@@ -107,10 +112,10 @@ class _LoginState extends State<Login> {
                         decoration: BoxDecoration(
                             color: Colors.yellow[500],
                             borderRadius:
-                            BorderRadius.all(Radius.circular(10))),
-                        child: Center(
+                                const BorderRadius.all(Radius.circular(10))),
+                        child: const Center(
                           child: Text(
-                            'Se connecter',
+                            'Log in',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
@@ -127,26 +132,24 @@ class _LoginState extends State<Login> {
                   ),
                   InkWell(
                     child: Text(
-                      'Mot de passe oubié ?',
+                      'Forgaot password ?',
                       style: TextStyle(color: Colors.yellow[500]),
                     ),
-                    onTap: () {
-                      print('On ma tapéééé');
-                    },
+                    onTap: () {},
                   ),
                   Container(
                     height: 20,
                   ),
                   Row(
                     children: [
-                      Text('Vous n\'avez pas de compte ?',
+                      const Text("Don't have an account?",
                           style: TextStyle(color: Colors.white)),
                       Container(
                         width: 10,
                       ),
                       InkWell(
                         child: Text(
-                          'Créez un compte',
+                          'Create an account',
                           style: TextStyle(color: Colors.yellow[500]),
                         ),
                         onTap: () {
@@ -168,15 +171,15 @@ class _LoginState extends State<Login> {
         context: context,
         barrierDismissible: false,
         builder: (context) => const Center(
-          child: CircularProgressIndicator(),
-        ));
+              child: CircularProgressIndicator(),
+            ));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: myController1.text.trim(),
           password: myController2.text.trim());
       print('${FirebaseAuth.instance.currentUser?.uid}');
     } on FirebaseAuthException catch (e) {
-      print('Echec dans la connexion : $e');
+      print('Connection failure : $e');
     }
     Navigator.of(context).popUntil((route) => route.isFirst);
   }

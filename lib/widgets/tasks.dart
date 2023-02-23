@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/components/list_user_board.dart';
-import 'package:todo_app/models/globals.dart';
-import 'package:todo_app/widgets/profile_picture.dart';
-
+import 'package:todo_app/components/globals.dart';
 import '../pages/view_tasks.dart';
 
 class Task_Widget extends StatefulWidget {
@@ -198,7 +196,7 @@ class _Task_WidgetState extends State<Task_Widget> {
           });
         }
       } else {
-        print('username non trouvé');
+        print('username not found');
       }
     }
   }

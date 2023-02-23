@@ -10,7 +10,6 @@ class Task_Model {
   late DateTime date_de_creation;
   late DateTime date_pour_la_tache;
   late String heure_pour_la_tache;
-  //late int idd;
 
   Task_Model({
     required this.id,
@@ -22,7 +21,6 @@ class Task_Model {
     required this.date_de_creation,
     required this.date_pour_la_tache,
     required this.heure_pour_la_tache,
-   // required this.idd,
   });
 
   Map<String, dynamic> toJson() => {
@@ -35,7 +33,6 @@ class Task_Model {
         'date_de_creation': Timestamp.fromDate(date_de_creation),
         'date_pour_la_tache': Timestamp.fromDate(date_pour_la_tache),
         'heure_pour_la_tache': heure_pour_la_tache,
-        //'idd': idd,
       };
 
   static Task_Model fromJson(Map<String, dynamic> json) => Task_Model(
@@ -48,6 +45,5 @@ class Task_Model {
         date_de_creation: json['date_de_creation'].toDate(),
         date_pour_la_tache: json['date_pour_la_tache'].toDate(),
         heure_pour_la_tache: json['heure_pour_la_tache'],
-     //   idd: json['idd'],
       );
 }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/models/globals.dart';
+import 'package:todo_app/components/globals.dart';
 import 'package:todo_app/pages/homepage.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
 import '../widgets/packages/confirmation_slider.dart';
@@ -41,15 +41,13 @@ class View_Tasks extends StatefulWidget {
 class _View_TasksState extends State<View_Tasks> {
   @override
   Widget build(BuildContext context) {
-    print("objectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobject");
-    print(widget.etat);
     return Scaffold(
       backgroundColor: global_yellow,
       appBar: AppBar(
         backgroundColor: global_yellow,
         elevation: 0,
         leading: Padding(
-          padding: EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 10),
           child: Container(
             width: 100,
             height: 100,
@@ -60,7 +58,7 @@ class _View_TasksState extends State<View_Tasks> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(Icons.arrow_back_ios),
+                icon: const Icon(Icons.arrow_back_ios),
                 color: Colors.white,
               ),
             ),
@@ -68,13 +66,13 @@ class _View_TasksState extends State<View_Tasks> {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10),
             child: Container(
               decoration: const BoxDecoration(
                   color: Color.fromRGBO(5, 4, 43, 1), shape: BoxShape.circle),
               child: IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.keyboard_control),
+                icon: const Icon(Icons.keyboard_control),
                 color: Colors.white,
               ),
             ),
@@ -83,7 +81,7 @@ class _View_TasksState extends State<View_Tasks> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -92,13 +90,13 @@ class _View_TasksState extends State<View_Tasks> {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(40),
                     border: Border.all(
-                        color: Color.fromRGBO(5, 4, 43, 1), width: 1)),
+                        color: const Color.fromRGBO(5, 4, 43, 1), width: 1)),
                 child: Padding(
                   padding:
-                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                      const EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                   child: Text(
                     widget.boardName,
-                    style: TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
+                    style: const TextStyle(color: Color.fromRGBO(5, 4, 43, 1)),
                   ),
                 ),
               ),

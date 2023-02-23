@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/widgets/HomePage/great.dart';
+import 'package:todo_app/widgets/HomePage/todayDate.dart';
 import 'package:todo_app/widgets/boards.dart';
 import 'package:todo_app/widgets/custom_drawer.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
-import 'package:intl/intl.dart';
 import 'package:todo_app/widgets/tasks.dart';
-
 import '../models/boards.dart';
-import '../models/globals.dart';
+import '../components/globals.dart';
 import '../models/task.dart';
 import '../models/user.dart';
 import 'add_tasks_boards_pages.dart';
@@ -27,8 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int numberOfTasksToday = 0;
   int numberOfBoards = 0;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  CollectionReference userRef = FirebaseFirestore.instance
-      .collection("users");
+  CollectionReference userRef = FirebaseFirestore.instance.collection("users");
   CollectionReference taskRef = FirebaseFirestore.instance
       .collection("users")
       .doc(currentUser.id)
@@ -54,11 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
             SliverAppBar(
               pinned: true,
               elevation: 0,
-              backgroundColor: Color.fromRGBO(5, 4, 43, 1),
-              //const Color.fromRGBO(5, 4, 43, 1),
+              backgroundColor: const Color.fromRGBO(5, 4, 43, 1),
               expandedHeight: 300,
               leading: Padding(
-                padding: EdgeInsets.only(left: 10),
+                padding: const EdgeInsets.only(left: 10),
                 child: InkWell(
                   child: Profile_Picture(
                     taille: 50,
@@ -85,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Colors.blueGrey, shape: BoxShape.circle),
                   child: IconButton(
                     onPressed: () {},
-                    icon: Icon(Icons.add),
+                    icon: const Icon(Icons.add),
                     color: Colors.white,
                   ),
                 ),
@@ -101,48 +100,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(height: 40),
-                          (DateTime.now().hour >= 12)
-                              ? (DateTime.now().hour >= 18)
-                                  ? const Text(
-                                      'Good \nEvening',
-                                      style: TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontSize: 60,
-                                          letterSpacing: 2),
-                                    )
-                                  : const Text('Good \nAfternoon',
-                                      style: TextStyle(
-                                          color: Colors.blueAccent,
-                                          fontSize: 60,
-                                          letterSpacing: 2))
-                              : const Text('Good \nMorning',
-                                  style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      fontSize: 60,
-                                      letterSpacing: 2)),
+                          const Great(),
                           Container(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Today\'s ${DateFormat('EEEE').format(DateTime.now())}',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  Container(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                      DateFormat('MMM d, yyyy')
-                                          .format(DateTime.now()),
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 12))
-                                ],
-                              ),
+                              const TodayDate(),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
@@ -182,9 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
               elevation: 0,
               expandedHeight: (tasksOrBoards == 1) ? 170 : 80,
               titleTextStyle:
-                  TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
+                  const TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
               backgroundColor: const Color.fromRGBO(5, 4, 43, 1),
-              leading: Icon(Icons.menu),
+              leading: const Icon(Icons.menu),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -199,21 +164,21 @@ class _MyHomePageState extends State<MyHomePage> {
                               decoration: BoxDecoration(
                                   color: (tasksOrBoards == 1)
                                       ? Colors.white
-                                      : Color.fromRGBO(5, 4, 43, 1),
+                                      : const Color.fromRGBO(5, 4, 43, 1),
                                   borderRadius: BorderRadius.circular(40),
                                   border: Border.all(
                                       color: (tasksOrBoards == 1)
-                                          ? Color.fromRGBO(5, 4, 43, 1)
+                                          ? const Color.fromRGBO(5, 4, 43, 1)
                                           : Colors.white,
                                       width: (tasksOrBoards == 1) ? 0 : 1)),
                               child: Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     top: 5, bottom: 5, left: 10, right: 10),
                                 child: Text(
                                   numberOfTasksToday.toString(),
                                   style: TextStyle(
                                       color: (tasksOrBoards == 1)
-                                          ? Color.fromRGBO(5, 4, 43, 1)
+                                          ? const Color.fromRGBO(5, 4, 43, 1)
                                           : Colors.white,
                                       fontSize: 12),
                                 ),
@@ -253,7 +218,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Container(
                               decoration: BoxDecoration(
                                   color: (tasksOrBoards == 1)
-                                      ? Color.fromRGBO(5, 4, 43, 1)
+                                      ? const Color.fromRGBO(5, 4, 43, 1)
                                       : Colors.white,
                                   borderRadius: BorderRadius.circular(40),
                                   border: Border.all(
@@ -262,14 +227,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                           : Colors.transparent,
                                       width: (tasksOrBoards == 1) ? 1 : 0)),
                               child: Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     top: 5, bottom: 5, left: 10, right: 10),
                                 child: Text(
                                   numberOfBoards.toString(),
                                   style: TextStyle(
                                       color: (tasksOrBoards == 1)
                                           ? Colors.white
-                                          : Color.fromRGBO(5, 4, 43, 1),
+                                          : const Color.fromRGBO(5, 4, 43, 1),
                                       fontSize: 12),
                                 ),
                               ),
@@ -302,7 +267,8 @@ class _MyHomePageState extends State<MyHomePage> {
               flexibleSpace: (tasksOrBoards == 1)
                   ? FlexibleSpaceBar(
                       background: Padding(
-                        padding: EdgeInsets.only(top: 100, right: 20, left: 20),
+                        padding: const EdgeInsets.only(
+                            top: 100, right: 20, left: 20),
                         child: Column(
                           children: [
                             Row(
@@ -509,7 +475,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     stream: readTasks(days),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        print('Something has wrong! ${snapshot.error}');
+                        if (kDebugMode) {
+                          print('Something has wrong! ${snapshot.error}');
+                        }
                         return SliverToBoxAdapter(
                           child: Text('Something has wrong! ${snapshot.error}'),
                         );
@@ -519,7 +487,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           return const SliverToBoxAdapter(
                             child: Center(
                                 child: Text(
-                              'No Tasks for today',
+                              'No Tasks for this day',
                               style: TextStyle(color: Colors.white),
                             )),
                           );
@@ -569,7 +537,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           return const SliverToBoxAdapter(
                             child: Center(
                                 child: Text(
-                              'No Boards for today',
+                              'No Boards',
                               style: TextStyle(color: Colors.white),
                             )),
                           );
@@ -579,19 +547,20 @@ class _MyHomePageState extends State<MyHomePage> {
                               return FutureBuilder(
                                   future: getNumberOfTaskInOneBoard(
                                       listBoards[index].titre),
-                                  builder: (context, snapshotss) {
-                                    if (snapshotss.hasData) {
-                                      final int numberOfTasks =
-                                          snapshotss.data!;
+                                  builder: (context, snaphotss) {
+                                    if (snaphotss.hasData) {
+                                      final int numberOfTasks = snaphotss.data!;
                                       return Padding(
                                         padding: const EdgeInsets.only(
                                             left: 20, right: 20, bottom: 10),
                                         child: Boards_Widget(
-                                            boardName: listBoards[index].titre,
-                                            listUsers: listBoards[index]
-                                                .listOfAssignee,
-                                            numberOfTask: numberOfTasks,
-                                            color: listBoards[index].couleur, idBoard: listBoards[index].id,),
+                                          boardName: listBoards[index].titre,
+                                          listUsers:
+                                              listBoards[index].listOfAssignee,
+                                          numberOfTask: numberOfTasks,
+                                          color: listBoards[index].couleur,
+                                          idBoard: listBoards[index].id,
+                                        ),
                                       );
                                     } else {
                                       return Center(
@@ -629,8 +598,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> getProfilePicture() async {
-    QuerySnapshot querySnapshot = await userRef /*FirebaseFirestore.instance
-        .collection("users")*/
+    QuerySnapshot querySnapshot = await userRef
         .where("id", isEqualTo: FirebaseAuth.instance.currentUser?.uid)
         .limit(1)
         .get();
@@ -649,16 +617,15 @@ class _MyHomePageState extends State<MyHomePage> {
         });
       }
     } else {
-      print('Current user not found');
+      if (kDebugMode) {
+        print('Current user not found');
+      }
     }
   }
 
   Future<int> getNumberOfTaskInOneBoard(String nameOfThisBoard) async {
     int number = 0;
-    QuerySnapshot querySnapshot = await taskRef/*FirebaseFirestore.instance
-        .collection("users")
-        .doc(currentUser.id)
-        .collection("tasks")*/
+    QuerySnapshot querySnapshot = await taskRef
         .where("id_board", isEqualTo: nameOfThisBoard)
         .where("etat", isEqualTo: "loading")
         .get();
@@ -678,10 +645,7 @@ class _MyHomePageState extends State<MyHomePage> {
         DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
             .add(const Duration(days: 1)));
 
-    QuerySnapshot querySnapshot = await taskRef/*FirebaseFirestore.instance
-        .collection("users")
-        .doc(currentUser.id)
-        .collection("tasks")*/
+    QuerySnapshot querySnapshot = await taskRef
         .where("date_pour_la_tache", isGreaterThanOrEqualTo: dateOfToday)
         .where("date_pour_la_tache", isLessThan: dateOfTodayLimit)
         .get();
@@ -705,8 +669,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .add(Duration(days: day - dateOfToday.weekday))
         .add(const Duration(days: 1)));
 
-    return userRef /*FirebaseFirestore.instance
-        .collection("users")*/
+    return userRef
         .doc(currentUser.id)
         .collection('tasks')
         .where('date_pour_la_tache', isGreaterThanOrEqualTo: dateOfTargetDay)
@@ -717,62 +680,61 @@ class _MyHomePageState extends State<MyHomePage> {
       final List<Task_Model> tasks = [];
       changes.forEach((change) {
         if (change.type == DocumentChangeType.added) {
-          // Ajouter un nouveau Board_Model si un document est ajouté
+          /// Add a new Board_Model if a document is added
           tasks.add(Task_Model.fromJson(change.doc.data()!));
         } else if (change.type == DocumentChangeType.modified) {
-          // Modifier le Board_Model correspondant si un document est modifié
+          // Modify the corresponding Board_Model if a document is modified
           int index = tasks.indexWhere((board) => board.id == change.doc.id);
           if (index != -1) {
             tasks[index] = Task_Model.fromJson(change.doc.data()!);
           }
         } else if (change.type == DocumentChangeType.removed) {
-          // Supprimer le Board_Model correspondant si un document est supprimé
+          // Delete the corresponding Board_Model if a document is deleted
           tasks.removeWhere((board) => board.id == change.doc.id);
         }
       });
-      // Mettre à jour le nombre de boards
+      // Update the number of boards
       setState(() {
         numberOfTasksToday = initialNumberOfTasks + tasks.length;
       });
 
-      // Retourner la liste mise à jour de Board_Model
+      // Return the updated list of Board_Model
       return tasks;
     });
   }
 
   Stream<List<Board_Model>> readBoards() {
     int initialNumberOfBoards = 0;
-    return userRef /*FirebaseFirestore.instance
-        .collection("users")*/
+    return userRef
         .doc(currentUser.id)
         .collection('boards')
         .orderBy("titre")
         .snapshots()
         .map((snapshot) {
-      // Utiliser la fonction docChanges pour ne récupérer que les données modifiées
+      // Use the docChanges function to retrieve only the modified data
       final changes = snapshot.docChanges;
       final List<Board_Model> boards = [];
 
       changes.forEach((change) {
         if (change.type == DocumentChangeType.added) {
-          // Ajouter un nouveau Board_Model si un document est ajouté
+          // Add a new Board_Model if a document is added
           boards.add(Board_Model.fromJson(change.doc.data()!));
         } else if (change.type == DocumentChangeType.modified) {
-          // Modifier le Board_Model correspondant si un document est modifié
+          // Modify the corresponding Board_Model if a document is modified
           int index = boards.indexWhere((board) => board.id == change.doc.id);
           if (index != -1) {
             boards[index] = Board_Model.fromJson(change.doc.data()!);
           }
         } else if (change.type == DocumentChangeType.removed) {
-          // Supprimer le Board_Model correspondant si un document est supprimé
+          // Delete the corresponding Board_Model if a document is deleted
           boards.removeWhere((board) => board.id == change.doc.id);
         }
       });
-      // Mettre à jour le nombre de boards
+      // Update the number of boards
       setState(() {
         numberOfBoards = initialNumberOfBoards + boards.length;
       });
-      // Retourner la liste mise à jour de Board_Model
+      // Return the updated list of Board_Model
       return boards;
     });
   }

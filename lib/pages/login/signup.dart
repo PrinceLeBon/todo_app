@@ -30,7 +30,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     myController.dispose();
     myController1.dispose();
     myController2.dispose();
@@ -49,7 +48,7 @@ class _SignUpState extends State<SignUp> {
         child: Container(
           margin: MediaQuery.of(context).padding,
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Form(
                 key: _formKey,
                 child: Column(
@@ -59,15 +58,15 @@ class _SignUpState extends State<SignUp> {
                         children: [
                           Positioned(
                               child: Container(
-                                width: 80,
-                                height: 80,
-                                decoration: BoxDecoration(
-                                    color: Colors.yellow[500],
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: FileImage(File(image.path)),
-                                        fit: BoxFit.cover)),
-                              )),
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                                color: Colors.yellow[500],
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: FileImage(File(image.path)),
+                                    fit: BoxFit.cover)),
+                          )),
                           Positioned(
                             bottom: 0,
                             right: 0,
@@ -75,7 +74,8 @@ class _SignUpState extends State<SignUp> {
                               width: 35,
                               height: 35,
                               decoration: const BoxDecoration(
-                                  color: Color.fromRGBO(5, 4, 43, 1), shape: BoxShape.circle),
+                                  color: Color.fromRGBO(5, 4, 43, 1),
+                                  shape: BoxShape.circle),
                               child: Center(
                                 child: Icon(Icons.camera_alt,
                                     color: Colors.yellow[500]),
@@ -91,67 +91,67 @@ class _SignUpState extends State<SignUp> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Nom : ',
+                        const Text('Last Name : ',
                             style: TextStyle(color: Colors.white)),
                         Container(
                           height: 10,
                         ),
                         TextFormField(
-                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.white),
                           controller: myController1,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please enter your last name';
                             }
                             return null;
                           },
                           decoration: InputDecoration(
                               prefixIcon:
-                              Icon(Icons.person, color: Colors.yellow[500]),
+                                  Icon(Icons.person, color: Colors.yellow[500]),
                               enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               ),
                               focusedBorder: const OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               )),
                         ),
                         Container(
                           height: 20,
                         ),
                         const Text(
-                          'Prénoms : ',
+                          'First Name : ',
                           style: TextStyle(color: Colors.white),
                         ),
                         Container(
                           height: 10,
                         ),
                         TextFormField(
-                          style: const TextStyle(fontSize: 13, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.white),
                           controller: myController2,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please enter your fist name';
                             }
                             return null;
                           },
                           decoration: InputDecoration(
                             prefixIcon:
-                            Icon(Icons.person, color: Colors.yellow[500]),
+                                Icon(Icons.person, color: Colors.yellow[500]),
                             enabledBorder: const OutlineInputBorder(
                               borderSide: BorderSide(color: Colors.white),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8)),
+                                  BorderRadius.all(Radius.circular(8)),
                             ),
                             focusedBorder: const OutlineInputBorder(
-                              borderSide:
-                              BorderSide(color: Colors.white),
+                              borderSide: BorderSide(color: Colors.white),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(8)),
+                                  BorderRadius.all(Radius.circular(8)),
                             ),
                           ),
                         ),
@@ -166,46 +166,47 @@ class _SignUpState extends State<SignUp> {
                           height: 10,
                         ),
                         TextFormField(
-                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.white),
                           controller: myController3,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please enter your username';
                             }
                             return null;
                           },
                           decoration: InputDecoration(
                               prefixIcon:
-                              Icon(Icons.person, color: Colors.yellow[500]),
-                              enabledBorder: OutlineInputBorder(
+                                  Icon(Icons.person, color: Colors.yellow[500]),
+                              enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.white),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               )),
                         ),
                         Container(
                           height: 20,
                         ),
                         const Text(
-                          'Date de naissance : ',
+                          'Birthdate : ',
                           style: TextStyle(color: Colors.white),
                         ),
                         Container(
                           height: 10,
                         ),
                         TextFormField(
-                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.white),
                           readOnly: true,
                           controller: myController4,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please choose your birth day';
                             }
                             return null;
                           },
@@ -213,38 +214,34 @@ class _SignUpState extends State<SignUp> {
                               prefixIcon: IconButton(
                                   onPressed: () {
                                     showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(1920),
-                                        builder: (context, child) {
-                                          return Theme(
-                                              data: Theme.of(context)
-                                                  .copyWith(
-                                                colorScheme:
-                                                ColorScheme.light(
-                                                  primary:
-                                                  Color.fromRGBO(5, 4, 43, 1),
-                                                  // <-- SEE HERE
-                                                  onPrimary:
-                                                  Colors.white,
-                                                  // <-- SEE HERE
-                                                  onSurface: Colors
-                                                      .black, // <-- SEE HERE
-                                                ),
-                                                textButtonTheme:
-                                                TextButtonThemeData(
-                                                  style:
-                                                  TextButton.styleFrom(
-                                                    primary: Colors
-                                                        .black, // button text color
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1920),
+                                            builder: (context, child) {
+                                              return Theme(
+                                                  data: Theme.of(context)
+                                                      .copyWith(
+                                                    colorScheme:
+                                                        const ColorScheme.light(
+                                                      primary: Color.fromRGBO(
+                                                          5, 4, 43, 1),
+                                                      onPrimary: Colors.white,
+                                                      onSurface: Colors.black,
+                                                    ),
+                                                    textButtonTheme:
+                                                        TextButtonThemeData(
+                                                      style:
+                                                          TextButton.styleFrom(
+                                                        primary: Colors
+                                                            .black, // button text color
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                              ),
-                                              child: child!);
-                                        },
-                                        lastDate: DateTime.now(),
-                                        initialEntryMode:
-                                        DatePickerEntryMode.calendar)
+                                                  child: child!);
+                                            },
+                                            lastDate: DateTime.now(),
+                                            initialEntryMode:
+                                                DatePickerEntryMode.calendar)
                                         .then((value) {
                                       setState(() {
                                         _date = value!;
@@ -259,13 +256,12 @@ class _SignUpState extends State<SignUp> {
                               enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               ),
                               focusedBorder: const OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               )),
                         ),
                         Container(
@@ -279,27 +275,27 @@ class _SignUpState extends State<SignUp> {
                           height: 10,
                         ),
                         TextFormField(
-                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.white),
                           controller: myController5,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please enter your email';
                             }
                             return null;
                           },
                           decoration: InputDecoration(
                               prefixIcon:
-                              Icon(Icons.mail, color: Colors.yellow[500]),
+                                  Icon(Icons.mail, color: Colors.yellow[500]),
                               enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               ),
                               focusedBorder: const OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               )),
                         ),
                         Container(
@@ -313,13 +309,14 @@ class _SignUpState extends State<SignUp> {
                           height: 10,
                         ),
                         TextFormField(
-                          style: TextStyle(fontSize: 13, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 13, color: Colors.white),
                           obscureText: true,
                           obscuringCharacter: '*',
                           controller: myController6,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter some text';
+                              return 'Please enter your password';
                             }
                             return null;
                           },
@@ -329,13 +326,12 @@ class _SignUpState extends State<SignUp> {
                               enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               ),
                               focusedBorder: const OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Colors.white),
+                                borderSide: BorderSide(color: Colors.white),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                               )),
                         ),
                         Container(
@@ -348,8 +344,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                     Row(
                       children: [
-                        Text(
-                          'Vous avez déjà un compte ?',
+                        const Text(
+                          'Already have an account?',
                           style: TextStyle(color: Colors.white),
                         ),
                         Container(
@@ -357,7 +353,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         InkWell(
                           child: Text(
-                            'Connectez vous',
+                            'Log In',
                             style: TextStyle(color: Colors.yellow[500]),
                           ),
                           onTap: () {
@@ -377,10 +373,10 @@ class _SignUpState extends State<SignUp> {
                           decoration: BoxDecoration(
                               color: Colors.yellow[500],
                               borderRadius:
-                              BorderRadius.all(Radius.circular(10))),
-                          child: Center(
+                                  const BorderRadius.all(Radius.circular(10))),
+                          child: const Center(
                             child: Text(
-                              'S\'inscrire',
+                              'Sign up',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
@@ -405,24 +401,22 @@ class _SignUpState extends State<SignUp> {
 
   Future Inscription() async {
     CollectionReference userCollection =
-    FirebaseFirestore.instance.collection("users");
+        FirebaseFirestore.instance.collection("users");
     QuerySnapshot querySnapshot = await userCollection
         .where("username", isEqualTo: myController3.text.trim())
         .get();
     if (querySnapshot.docs.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content:
-            Text("Le nom d'utilisateur existe déjà choisissez un autre")),
+            content: Text("The username already exists choose another one")),
       );
     } else {
-      print("Le nom d'utilisateur n'existe pas");
       showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) => const Center(
-            child: CircularProgressIndicator(),
-          ));
+                child: CircularProgressIndicator(),
+              ));
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: myController5.text.trim(),
@@ -436,7 +430,7 @@ class _SignUpState extends State<SignUp> {
             myController3.text.trim(),
             myController5.text.trim()));
       } on FirebaseAuthException catch (e) {
-        print('Echec dans la sélection de limage: $e');
+        print('Failed to add user: $e');
       }
       FirebaseAuth.instance.signOut();
       Navigator.of(context)
@@ -455,7 +449,10 @@ class _SignUpState extends State<SignUp> {
     user.id = docUser.id;
     user.photo = await ref.getDownloadURL();
     final json = user.toJson();
-    await docUser.set(json).onError((e, _) => print("Error writing users document: $e"));;
+    await docUser
+        .set(json)
+        .onError((e, _) => print("Error writing users document: $e"));
+    ;
   }
 
   Future pickImage(ImageSource source) async {
@@ -469,7 +466,7 @@ class _SignUpState extends State<SignUp> {
         print(image.path);
       });
     } on PlatformException catch (e) {
-      print('Echec dans la sélection de limage: $e');
+      print('Failure to select the image: $e');
     }
   }
 }

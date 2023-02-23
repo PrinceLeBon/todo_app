@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/components/list_user_board.dart';
-import 'package:todo_app/widgets/profile_picture.dart';
-
-import '../models/globals.dart';
+import '../components/globals.dart';
 
 class Boards_Widget extends StatefulWidget {
   final String idBoard;
@@ -99,7 +97,7 @@ class _Boards_WidgetState extends State<Boards_Widget> {
             ),
             Text(
               widget.boardName,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             Container(
               height: 10,
@@ -195,9 +193,6 @@ class _Boards_WidgetState extends State<Boards_Widget> {
   }
 
   Future<void> AddUserToBoard(String _username) async {
-    print(
-        'objectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobject');
-    print(_username);
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection("users")
         .where("username", isEqualTo: _username)

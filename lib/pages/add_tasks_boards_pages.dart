@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:color_parser/color_parser.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/models/globals.dart';
+import 'package:todo_app/components/globals.dart';
 import '../models/boards.dart';
 import '../models/task.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -77,57 +78,55 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          child: const Text(
-                            'Tasks',
-                            style: TextStyle(letterSpacing: 2),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              tasksOrBoards = 1;
-                            });
-                          },
-                        ),
-                        Container(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 2,
-                          color: (tasksOrBoards == 1)
-                              ? Color.fromRGBO(5, 4, 43, 1)
-                              : Colors.white,
-                        )
-                      ],
-                    )),
+                        child: InkWell(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Tasks',
+                                  style: TextStyle(letterSpacing: 2),
+                                ),
+                                Container(
+                                  height: 10,
+                                ),
+                                Container(
+                                  height: 2,
+                                  color: (tasksOrBoards == 1)
+                                      ? const Color.fromRGBO(5, 4, 43, 1)
+                                      : Colors.white,
+                                )
+                              ],
+                            ),
+                            onTap: () {
+                              setState(() {
+                                tasksOrBoards = 1;
+                              });
+                            })),
                     Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          child: const Text(
-                            'Boards',
-                            style: TextStyle(letterSpacing: 2),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              tasksOrBoards = 2;
-                            });
-                          },
-                        ),
-                        Container(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 2,
-                          color: (tasksOrBoards != 1)
-                              ? Color.fromRGBO(5, 4, 43, 1)
-                              : Colors.white,
-                        )
-                      ],
-                    ))
+                        child: InkWell(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Boards',
+                                  style: TextStyle(letterSpacing: 2),
+                                ),
+                                Container(
+                                  height: 10,
+                                ),
+                                Container(
+                                  height: 2,
+                                  color: (tasksOrBoards != 1)
+                                      ? const Color.fromRGBO(5, 4, 43, 1)
+                                      : Colors.white,
+                                )
+                              ],
+                            ),
+                            onTap: () {
+                              setState(() {
+                                tasksOrBoards = 2;
+                              });
+                            }))
                   ],
                 ),
                 Container(
@@ -154,7 +153,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                   controller: myController1,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
+                                      return 'Please enter your task name';
                                     }
                                     return null;
                                   },
@@ -194,7 +193,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                   controller: myController2,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
+                                      return 'Please enter additional description';
                                     }
                                     return null;
                                   },
@@ -236,7 +235,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                         Container(
                                           height: 10,
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -357,7 +356,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                         Container(
                                           height: 10,
                                         ),
-                                        Container(
+                                        SizedBox(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width /
@@ -398,11 +397,9 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                                                             4,
                                                                             43,
                                                                             1),
-                                                                    // <-- SEE HERE
                                                                     onPrimary:
                                                                         Colors
                                                                             .white,
-                                                                    // <-- SEE HERE
                                                                     onSurface:
                                                                         Colors
                                                                             .black,
@@ -421,12 +418,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                                           }).then((value) {
                                                         setState(() {
                                                           _time = value!;
-                                                          myController4
-                                                              .text = value.hour
-                                                                  .toString() +
-                                                              ':' +
-                                                              value.minute
-                                                                  .toString();
+                                                          myController4.text =
+                                                              '${value.hour}:${value.minute}';
                                                         });
                                                       });
                                                     },
@@ -466,8 +459,10 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                     stream: readBoards(),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasError) {
-                                        print(
-                                            'Something has wrong! ${snapshot.error}');
+                                        if (kDebugMode) {
+                                          print(
+                                              'Something has wrong! ${snapshot.error}');
+                                        }
                                         return Text(
                                             'Something has wrong! ${snapshot.error}');
                                       } else if (snapshot.hasData) {
@@ -482,7 +477,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                               }
                                               return null;
                                             },
-                                            hint: Text('DropDownButton : ',
+                                            hint: const Text(
+                                                'Choose a Board : ',
                                                 style: TextStyle(
                                                     color: Color.fromRGBO(
                                                         5, 4, 43, 1))),
@@ -504,7 +500,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                               }
                                               return null;
                                             },
-                                            hint: Text('Board : ',
+                                            hint: const Text('Board : ',
                                                 style: TextStyle(
                                                     color: Color.fromRGBO(
                                                         5, 4, 43, 1))),
@@ -534,34 +530,6 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                         );
                                       }
                                     }),
-                                /*TextFormField(
-                                  style: const TextStyle(
-                                      fontSize: 13, color: Color.fromRGBO(5, 4, 43, 1)),
-                                  controller: myController5,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please choose a board';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                      prefixIcon: Icon(
-                                        Icons.category,
-                                        color: Color.fromRGBO(5, 4, 43, 1),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(5, 4, 43, 1)),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color.fromRGBO(5, 4, 43, 1)),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8)),
-                                      )),
-                                ),*/
                                 Container(
                                   height: 20,
                                 ),
@@ -595,16 +563,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                       titre: myController1.text.trim(),
                                       description: myController2.text.trim(),
                                       etat: 'loading',
-                                      date_de_creation: DateTime.now()
-                                      /*DateFormat('dd-MM-yyyy H:m:s')
-                                              .format(DateTime.now())*/
-                                      ,
-                                      date_pour_la_tache:
-                                          _date /*
-                                          DateFormat('dd-MM-yyyy H:m:s')
-                                              .format(_date)*/
-                                      ,
-                                      //idd: 0,
+                                      date_de_creation: DateTime.now(),
+                                      date_pour_la_tache: _date,
                                       heure_pour_la_tache:
                                           myController4.text.trim()));
                                 }
@@ -632,7 +592,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
                                   controller: myController6,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter some text';
+                                      return 'Please enter your board name';
                                     }
                                     return null;
                                   },
@@ -735,10 +695,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
         .doc(currentUser.id)
         .collection('tasks')
         .doc();
-    final QuerySnapshot _docTasks =
-        await FirebaseFirestore.instance.collection('tasks').get();
     task.id = docTasks.id;
-    //task.idd = _docTasks.docs.length;
     final json = task.toJson();
     setState(() {
       myController1.text = '';
@@ -751,7 +708,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
         .set(json)
         .onError((e, _) => print("Error writing Tasks document: $e"));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Board added successfully')),
+      const SnackBar(content: Text('Task added successfully')),
     );
   }
 
@@ -775,7 +732,7 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
         .set(json)
         .onError((e, _) => print("Error writing Boards document: $e"));
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Ajout du board')),
+      const SnackBar(content: Text('Board added successfully')),
     );
   }
 
@@ -789,10 +746,8 @@ class _AddTasksBoardsPageState extends State<AddTasksBoardsPage> {
           .map((doc) => Board_Model.fromJson(doc.data()))
           .toList());
 
-  // ValueChanged<Color> callback
   void changeColor(Color color) {
     setState(() => pickerColor = color);
-    print(ColorParser.color(pickerColor).toHex());
   }
 
   Future pickColor(BuildContext context) {

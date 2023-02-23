@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/widgets/profile_picture.dart';
-import '../models/globals.dart';
+import '../components/globals.dart';
 import '../pages/login/login.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -21,7 +21,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color.fromRGBO(5, 4, 43, 1),
+      backgroundColor: const Color.fromRGBO(5, 4, 43, 1),
       child: Container(
         margin: MediaQuery.of(context).padding,
         child: Padding(
@@ -34,11 +34,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 children: [
                   InkWell(
                     child:
-                    Profile_Picture(taille: 50, image: currentUser.photo),
-                    onTap: () {
-                      /*Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Profile()));*/
-                    },
+                        Profile_Picture(taille: 50, image: currentUser.photo),
+                    onTap: () {},
                   ),
                   Icon(Icons.blur_circular, color: Colors.yellow[500])
                 ],
@@ -47,8 +44,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 height: 20,
               ),
               Text(
-                currentUser.nom + ' ' + currentUser.prenom,
-                style: TextStyle(
+                '${currentUser.nom} ${currentUser.prenom}',
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
                     color: Colors.white),
@@ -57,8 +54,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 height: 5,
               ),
               Text(
-                '@' + currentUser.username,
-                style: TextStyle(color: Colors.white),
+                '@${currentUser.username}',
+                style: const TextStyle(color: Colors.white),
               ),
               Container(
                 height: 10,
@@ -74,11 +71,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 height: 30,
               ),
               InkWell(
-                child: _childDrawer1(Icons.person_outlined, 'Profil', 18),
-                onTap: () {
-                  /*Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Profile()));*/
-                },
+                child: _childDrawer1(Icons.person_outlined, 'Profile', 18),
+                onTap: () {},
               ),
               Container(
                 height: 20,
@@ -92,11 +86,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 height: 30,
               ),
               InkWell(
-                child: _childDrawer1(Icons.logout, 'Déconnexion', 18),
+                child: _childDrawer1(Icons.logout, 'Log Out', 18),
                 onTap: () {
                   FirebaseAuth.instance.signOut();
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Login()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => const Login()));
                 },
               )
             ],

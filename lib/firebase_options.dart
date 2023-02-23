@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB3M1qXgJi7emjkEHHnVSNuTkPTs4YOfhA',
-    appId: '1:166582588649:android:8c1324bb618d5da71b0c78',
-    messagingSenderId: '166582588649',
-    projectId: 'todoapp-31d4b',
-    storageBucket: 'todoapp-31d4b.appspot.com',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBMLISrcYqT9K1KEjrYlwUSN6Cp_NEJN1w',
-    appId: '1:166582588649:ios:881bc8d21da74b881b0c78',
-    messagingSenderId: '166582588649',
-    projectId: 'todoapp-31d4b',
-    storageBucket: 'todoapp-31d4b.appspot.com',
-    iosClientId: '166582588649-99m0g2go5acbiokaeglnqg635b4g56q9.apps.googleusercontent.com',
+    apiKey: '',
+    appId: '',
+    messagingSenderId: '',
+    projectId: '',
+    storageBucket: '',
+    iosClientId: '',
     iosBundleId: 'com.example.todoApp',
   );
 }

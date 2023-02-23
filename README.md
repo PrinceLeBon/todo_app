@@ -21,12 +21,14 @@ dribble (https://dribbble.com/shots/20166390--29-Mobile-App-Concept)
 4. View a task to see details about it.
 5. Create boards to categorize tasks.
 6. Set the color for a board.
-7. Add users to a board.
+7. Add a user to a board by pressing the "+" button on the board.
 8. See the number of active tasks in a board.
 9. See the users present in a board.
 10. See the number of boards.
 11. See the number of tasks of the day.
-12. See the evolution of the completion of the day's tasks through a percentage
+12. See the evolution of the completion of the day's tasks through a percentage.
+13. Mark a task as "done" by pressing the validation button on the task or by clicking on the task
+    and marking it as done with the confirmation slide bar.
 
 ## Features
 

@@ -132,7 +132,7 @@ class _LoginState extends State<Login> {
                   ),
                   InkWell(
                     child: Text(
-                      'Forgaot password ?',
+                      'Forgot your password ?',
                       style: TextStyle(color: Colors.yellow[500]),
                     ),
                     onTap: () {},
@@ -142,7 +142,7 @@ class _LoginState extends State<Login> {
                   ),
                   Row(
                     children: [
-                      const Text("Don't have an account?",
+                      const Text("Don't have an account ?",
                           style: TextStyle(color: Colors.white)),
                       Container(
                         width: 10,

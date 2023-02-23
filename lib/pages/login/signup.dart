@@ -345,7 +345,7 @@ class _SignUpState extends State<SignUp> {
                     Row(
                       children: [
                         const Text(
-                          'Already have an account?',
+                          'Already have an account ?',
                           style: TextStyle(color: Colors.white),
                         ),
                         Container(

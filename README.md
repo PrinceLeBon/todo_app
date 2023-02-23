@@ -32,13 +32,8 @@ dribble (https://dribbble.com/shots/20166390--29-Mobile-App-Concept)
 
 - Account creation (Registration on the application with email + password)
 - Login to an account (email + password)
-  > https://user-images.githubusercontent.com/102158487/220634780-3935ea99-c4f9-4de4-b316-aebff0f6c8b1.webm
-- Creation of tasks
-- Add board for each task
-- Mark tasks as completed
-- View tasks
-- Display the percentage corresponding to the number of tasks of the day done
-  > https://user-images.githubusercontent.com/102158487/220636376-0ed4f499-39e8-422f-9cb3-ecba4fe41312.webm
+  > https://user-images.githubusercontent.com/102158487/220917179-08ff26bb-acee-4d08-bb15-87d321546591.webm
+
 - Creating boards
 - Set color for a board
 - Adding users to a board
@@ -46,7 +41,14 @@ dribble (https://dribbble.com/shots/20166390--29-Mobile-App-Concept)
 - Consult the users present in a board
 - View the number of boards
 - Consult the number of tasks of the day
-  > https://user-images.githubusercontent.com/102158487/220637587-90ccd7c0-a3f1-4205-88e0-5c3b944d79cc.webm
+  > https://user-images.githubusercontent.com/102158487/220919006-d9fbd9d6-d278-4315-bbdd-503371e184d0.webm
+
+- Creation of tasks
+- Add board for each task
+- Mark tasks as completed
+- View tasks
+- Display the percentage corresponding to the number of tasks of the day done
+  > https://user-images.githubusercontent.com/102158487/220920173-f87ef000-26af-41a2-b68f-7f96ec520cf9.webm
 
 ## Known issues
 
